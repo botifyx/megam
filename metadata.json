@@ -1,0 +1,8 @@
+
+{
+  "name": "Megam Live",
+  "description": "High-tech AI + Microsoft 365 solutions for enterprise operations, artwork workflows, and SAP synchronization.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
