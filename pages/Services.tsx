@@ -1,29 +1,29 @@
 
 import React from 'react';
-import { M365_SERVICES } from '../constants';
-import { Brain, MessageSquare, AppWindow, Database, Shield, Share2, ArrowRight, RefreshCw, Activity, Cpu, Wifi, Code, Zap } from 'lucide-react';
+import { M365_SERVICES, ENGAGEMENT_MODELS } from '../constants';
+import { 
+  Brain, MessageSquare, AppWindow, Database, Shield, Share2, ArrowRight, RefreshCw, 
+  Activity, Cpu, Wifi, Code, Zap, Clock, Globe, Layout, Bot 
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SpotlightCard from '../components/SpotlightCard';
 import RevealOnScroll from '../components/RevealOnScroll';
 import { useTheme } from '../context/ThemeContext';
 
 const Services: React.FC = () => {
-  const icons = { Brain, MessageSquare, AppWindow, Database, Shield, Share2, RefreshCw };
+  const icons = { Brain, MessageSquare, AppWindow, Database, Shield, Share2, RefreshCw, Layout, Bot, Zap };
   const { theme } = useTheme();
 
   return (
     <div className="pt-24 pb-20 bg-slate-50 dark:bg-brand-dark min-h-screen relative overflow-hidden transition-colors duration-500">
-       {/* Background Fluid Atmosphere */}
        <div className="absolute inset-0 z-0 pointer-events-none">
          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,rgba(59,130,246,0.1)_0%,transparent_60%)] dark:bg-[radial-gradient(circle_at_50%_-20%,rgba(59,130,246,0.15)_0%,transparent_60%)]"></div>
          <div className="absolute top-1/2 right-0 w-[800px] h-[800px] bg-brand-neon/5 rounded-full blur-[140px] animate-pulse-slow"></div>
-         
-         {/* Static High-Tech Grid */}
          <div className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03] bg-[linear-gradient(rgba(15,23,42,1)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,1)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
       </div>
 
        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center max-w-4xl mx-auto mb-24">
+          <header className="text-center max-w-4xl mx-auto mb-24">
              <RevealOnScroll animation="animate-tracking-in-expand">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-primary/20 dark:border-brand-neon/30 bg-white dark:bg-brand-neon/5 mb-6 shadow-sm">
                    <span className="relative flex h-2 w-2">
@@ -37,13 +37,13 @@ const Services: React.FC = () => {
                 </h1>
              </RevealOnScroll>
              <RevealOnScroll animation="animate-hero-sub-stagger" delay={0.2}>
-                <p className="text-xl text-slate-600 dark:text-gray-400 font-light leading-relaxed transition-colors">
-                   We architect decentralized operational fabrics. Elevate your Microsoft investment with high-fidelity engineering and AI-native logic orchestration.
+                <p className="text-xl text-slate-600 dark:text-gray-400 font-light leading-relaxed transition-colors max-w-3xl mx-auto">
+                   Enterprise-grade Microsoft 365 architecture, governance, and engineering services. We help organizations design, extend, and operate secure, compliant, and scalable M365 environments. Specialized M365 expertise for regulated industries.
                 </p>
              </RevealOnScroll>
-          </div>
+          </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" aria-label="M365 Engineering Services">
              {M365_SERVICES.map((service, index) => {
                  // @ts-ignore
                  const Icon = icons[service.iconName];
@@ -61,7 +61,7 @@ const Services: React.FC = () => {
                            <div className="relative bg-white dark:bg-brand-dark/90 backdrop-blur-3xl rounded-2xl p-8 h-full flex flex-col border border-slate-100 dark:border-white/10 overflow-hidden transition-all duration-500 group-hover:border-brand-primary dark:group-hover:border-brand-neon/30 group-hover:translate-y-[-4px]">
                               
                               <div className="absolute top-4 left-4 text-[8px] font-mono font-bold text-slate-400 dark:text-gray-600 uppercase tracking-widest flex items-center gap-2 group-hover:text-brand-primary dark:group-hover:text-brand-neon/50 transition-colors">
-                                 <Code size={10} /> {serviceId}
+                                 <Code size={10} aria-hidden="true" /> {serviceId}
                               </div>
                               <div className="absolute top-4 right-4 flex gap-1">
                                  <div className="w-1 h-1 bg-brand-primary/20 dark:bg-brand-neon/40 animate-pulse"></div>
@@ -77,13 +77,13 @@ const Services: React.FC = () => {
                                        animationFillMode: 'forwards'
                                     }}
                                  >
-                                    <Icon size={32} />
+                                    <Icon size={32} aria-hidden="true" />
                                  </div>
                               </div>
 
-                              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-brand-primary dark:group-hover:text-brand-neon transition-colors tracking-tight">
+                              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-brand-primary dark:group-hover:text-brand-neon transition-colors tracking-tight">
                                  {service.title}
-                              </h3>
+                              </h2>
                               
                               <p className="text-slate-500 dark:text-gray-400 mb-8 flex-grow leading-relaxed font-light text-[15px] group-hover:text-slate-700 dark:group-hover:text-gray-200 transition-colors">
                                  {service.description}
@@ -101,7 +101,7 @@ const Services: React.FC = () => {
                                  ))}
                                  <div className="pt-4 flex items-center justify-between text-brand-primary font-bold text-[10px] uppercase tracking-[0.2em] group-hover:text-brand-primary dark:group-hover:text-brand-neon transition-all duration-300">
                                     <span>Engineering Specs</span>
-                                    <ArrowRight size={14} className="group-hover:translate-x-2 transition-transform" />
+                                    <ArrowRight size={14} className="group-hover:translate-x-2 transition-transform" aria-hidden="true" />
                                  </div>
                               </div>
 
@@ -113,41 +113,61 @@ const Services: React.FC = () => {
                     </RevealOnScroll>
                  )
              })}
-          </div>
+          </section>
 
-          <RevealOnScroll animation="animate-blur-in" delay={0.4}>
-             <div className="mt-32 relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-brand-primary via-blue-400 to-brand-secondary rounded-3xl blur opacity-10 dark:opacity-20 group-hover:opacity-20 dark:group-hover:opacity-40 transition-opacity duration-500"></div>
-                <div className="relative rounded-3xl p-12 lg:p-20 text-center overflow-hidden border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-brand-dark/80 backdrop-blur-2xl shadow-xl dark:shadow-none transition-colors duration-500">
-                   
-                   <div className="absolute top-0 right-0 p-8 text-[8px] font-mono font-bold text-slate-300 dark:text-gray-700 select-none uppercase">
-                      Protocol_Connect_v4<br/>
-                      Uplink: Primary<br/>
-                      Encryption: Active
-                   </div>
-                   
-                   <div className="relative z-10 max-w-3xl mx-auto">
-                      <div className="flex justify-center mb-8">
-                         <div className="w-16 h-16 rounded-full bg-brand-primary/5 dark:bg-brand-primary/10 border border-brand-primary/20 dark:border-brand-primary/30 flex items-center justify-center text-brand-primary dark:text-brand-neon animate-neural-pulse">
-                            <Activity size={32} />
-                         </div>
-                      </div>
-                      <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight transition-colors">Need a custom implementation?</h2>
-                      <p className="text-xl text-slate-500 dark:text-gray-400 mb-10 font-light leading-relaxed transition-colors">
-                         We specialize in grounding generative agents with proprietary enterprise data residing in SAP, Salesforce, and secure SQL clusters. Let's engineer your cognitive advantage.
-                      </p>
-                      <Link to="/contact">
-                         <button className="group relative bg-brand-primary text-white font-bold py-5 px-12 rounded-xl overflow-hidden shadow-lg hover:shadow-brand-primary/40 transition-all hover:scale-105">
-                            <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
-                            <span className="relative z-10 flex items-center gap-3 uppercase tracking-[0.2em] text-sm">
-                               Talk to an Architect <Zap size={18} className="text-brand-neon animate-pulse" />
-                            </span>
-                         </button>
-                      </Link>
-                   </div>
-                </div>
-             </div>
-          </RevealOnScroll>
+          <section className="mt-40">
+            <div className="text-center mb-16">
+               <span className="text-[10px] font-mono font-bold text-brand-primary uppercase tracking-[0.5em] mb-4 block">Engagement Protocol</span>
+               <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight transition-colors">Engineering Service Modules</h2>
+               <p className="text-slate-600 dark:text-gray-300 max-w-2xl mx-auto font-light leading-relaxed">
+                  Transparent, fixed-entry Microsoft 365 engineering services designed to extend and scale your solutions.
+               </p>
+            </div>
+            
+            <div className="max-w-5xl mx-auto overflow-hidden rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-brand-surface/40 backdrop-blur-3xl shadow-2xl transition-colors">
+               <table className="w-full text-left font-sans border-collapse">
+                  <thead>
+                     <tr className="bg-slate-50/50 dark:bg-black/40 text-slate-400 dark:text-brand-accent uppercase text-[10px] tracking-[0.4em] font-mono border-b border-slate-200 dark:border-white/5 transition-colors">
+                        <th className="px-12 py-8">Service Module</th>
+                        <th className="px-12 py-8">Engineering Cycle</th>
+                        <th className="px-12 py-8 text-right">Starting At</th>
+                     </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 dark:divide-white/5 text-sm">
+                     {ENGAGEMENT_MODELS.map((model, i) => {
+                        // @ts-ignore
+                        const Icon = icons[model.icon] || Globe;
+                        return (
+                           <tr key={i} className="group hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                              <td className="px-12 py-10">
+                                 <div className="flex items-center gap-5">
+                                    <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/10 flex items-center justify-center text-brand-primary group-hover:scale-110 group-hover:bg-brand-primary/10 transition-all">
+                                       <Icon size={18} aria-hidden="true" />
+                                    </div>
+                                    <div>
+                                       <p className="text-slate-900 dark:text-white font-extrabold text-base tracking-tight">{model.solution}</p>
+                                       <p className="text-[9px] font-mono text-slate-400 dark:text-brand-success uppercase tracking-widest mt-1">Status: Delivery-Ready</p>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td className="px-12 py-10">
+                                 <div className="flex items-center gap-3 text-slate-500 dark:text-gray-400 font-medium">
+                                    <Clock size={14} className="text-brand-accent group-hover:rotate-45 transition-transform" aria-hidden="true" /> 
+                                    {model.effort}
+                                 </div>
+                              </td>
+                              <td className="px-12 py-10 text-right">
+                                 <span className="text-lg font-mono font-extrabold text-brand-primary dark:text-brand-neon bg-brand-primary/5 dark:bg-brand-neon/5 px-6 py-2 rounded-xl border border-brand-primary/20 dark:border-brand-neon/20 shadow-sm">
+                                    {model.cost}
+                                 </span>
+                              </td>
+                           </tr>
+                        );
+                     })}
+                  </tbody>
+               </table>
+            </div>
+         </section>
        </div>
     </div>
   );

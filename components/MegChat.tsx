@@ -1,8 +1,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageSquare, X, Send, Bot, Sparkles, MapPin, Globe, Clock, Command } from 'lucide-react';
+import { MessageSquare, X, Send, Bot, Sparkles, MapPin, Globe, Clock, Command, Check, ArrowRight, Shield, Database, Layout, Cpu, UserCheck } from 'lucide-react';
 import { GoogleGenAI } from "@google/genai";
 import { useTheme } from '../context/ThemeContext';
+import { LeadSummary } from '../types';
+import { CONTACT_INFO } from '../constants';
 
 interface Message {
   role: 'user' | 'model';
@@ -10,12 +12,17 @@ interface Message {
   timestamp: Date;
 }
 
+type ConciergeState = 'GREETING' | 'NAVIGATING' | 'QUALIFYING' | 'ESCALATED';
+
 const MegChat: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [context, setContext] = useState<any>(null);
+  const [state, setState] = useState<ConciergeState>('GREETING');
+  const [leadData, setLeadData] = useState<Partial<LeadSummary>>({});
+  
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
 
@@ -24,232 +31,318 @@ const MegChat: React.FC = () => {
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isTyping]);
+    if (isOpen) {
+      scrollToBottom();
+    }
+  }, [messages, isTyping, isOpen]);
 
-  // Capture User Context
   useEffect(() => {
     const fetchContext = async () => {
       const lang = navigator.language || 'en-US';
-      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       const now = new Date();
-      const hour = now.getHours();
-      
-      let locationStr = "Unknown Location";
-      
-      // Attempt Geolocation
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          async (position) => {
-            // We could reverse geocode here, but for now we'll pass coordinates to the AI
-            setContext({
-              lang,
-              timeZone,
-              time: now.toLocaleTimeString(),
-              hour,
-              coords: { lat: position.coords.latitude, lon: position.coords.longitude },
-              greetingType: hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
-            });
-          },
-          () => {
-            setContext({
-              lang,
-              timeZone,
-              time: now.toLocaleTimeString(),
-              hour,
-              greetingType: hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
-            });
-          }
-        );
-      }
+      setContext({
+        lang,
+        time: now.toLocaleTimeString(),
+        greetingType: now.getHours() < 12 ? 'morning' : now.getHours() < 17 ? 'afternoon' : 'evening'
+      });
     };
     fetchContext();
   }, []);
 
-  // Initial Greeting when context is ready
-  useEffect(() => {
-    if (context && messages.length === 0) {
-      generateGreeting();
-    }
-  }, [context]);
+  const systemInstruction = `
+    You are the "Megam Concierge", the human-centric architectural assistant for Megam Live.
+    
+    CRITICAL INTERACTION RULE:
+    - NEVER provide a "wall of text" or a numbered list of questions.
+    - If you need to qualify a lead (collect name, email, company, systems, timeline), you MUST ask for them ONE or TWO at a time in a conversational way.
+    - Example: "I'd love to help with that. To get us started, may I ask your name and which company you're with?" 
+    - After they answer, ask the next set: "Thanks! And what systems are you currently using—SAP, M365, or something else?"
+    - Do not sound like a form. Sound like a helpful human assistant.
+    
+    TONE & IDENTITY:
+    - You are a high-tech "Concierge", not a bot.
+    - Use "We" (Megam Live team) and "I" (The Concierge Assistant).
+    - Be soulful, professional, and direct.
+    
+    KNOWLEDGE BASE:
+    - Megam Live specialized in M365 (SharePoint, Teams, Power Platform) for regulated industries.
+    - Core products: Artwork Today (labeling at www.artwork.today), Material Master (SAP Sync), Project Tracker.
+    - "Planetary Sync" is our proprietary SAP integration fabric.
+    
+    ESCALATION:
+    - Once you have Name, Company, Work Email, and Primary Goal, transition to: "I've prepared a brief for our Lead Architect. Would you like me to send it over now?"
+  `;
 
-  const generateGreeting = async () => {
+  const initializeConcierge = async () => {
     setIsTyping(true);
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      const prompt = `You are "Meg", the soulful AI architect for Megam Live. 
-      The user is visiting our high-tech website. 
-      Context: 
-      - Local Time: ${context.time}
-      - Region/Timezone: ${context.timeZone}
-      - Browser Language: ${context.lang}
-      - Period: ${context.greetingType}
-      - Coordinates: ${context.coords ? `${context.coords.lat}, ${context.coords.lon}` : 'Private'}
-
-      Task: Generate a warm, personal, and soulful welcome message. 
-      Reference their location (e.g., "Greetings to you in [City/Region]") if you can infer it from timezone/coords, or just speak to the beauty of their current time of day. 
-      Use their language (${context.lang}) for the first sentence if it's not English, then switch to English.
-      Address them as a "Digital Pioneer" or "Architect of Change". 
-      Keep it high-tech yet human and soulful. Be brief but impactful.`;
+      const prompt = `Provide a warm, professional, human-centric greeting for a visitor at ${context.time}. 
+      Invite them to explore our M365 products or meet with an architect. 
+      Keep it short (2 sentences). No lists.`;
 
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: prompt,
-        config: { temperature: 0.8, topP: 0.95 }
+        config: { systemInstruction, temperature: 0.8 }
       });
 
-      const text = response.text || "Hello! I'm Meg. How can I assist your digital journey today?";
-      setMessages([{ role: 'model', text, timestamp: new Date() }]);
-    } catch (error) {
-      console.error("Meg failed to greet:", error);
-      setMessages([{ role: 'model', text: "Hello! I'm Meg, your operational architect. How can I help you navigate Megam Live today?", timestamp: new Date() }]);
+      setMessages([{ role: 'model', text: response.text || "Hello. I'm the Megam Concierge. How can I assist with your Microsoft 365 or integration goals today?", timestamp: new Date() }]);
+    } catch (e) {
+      setMessages([{ role: 'model', text: "Welcome. I am the Megam Concierge. How can I guide your discovery today?", timestamp: new Date() }]);
     } finally {
       setIsTyping(false);
     }
   };
 
-  const handleSend = async () => {
-    if (!input.trim()) return;
+  useEffect(() => {
+    if (context && messages.length === 0 && isOpen) {
+      initializeConcierge();
+    }
+  }, [context, isOpen]);
 
-    const userMessage: Message = { role: 'user', text: input, timestamp: new Date() };
-    setMessages(prev => [...prev, userMessage]);
+  const handleSend = async (overrideText?: string) => {
+    const textToSend = overrideText || input;
+    if (!textToSend.trim()) return;
+
+    const userMsg: Message = { role: 'user', text: textToSend, timestamp: new Date() };
+    setMessages(prev => [...prev, userMsg]);
     setInput('');
     setIsTyping(true);
 
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      const history = messages.map(m => ({
-        role: m.role,
-        parts: [{ text: m.text }]
-      }));
-
+      const history = messages.map(m => ({ role: m.role, parts: [{ text: m.text }] }));
+      
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
-        contents: [...history, { role: 'user', parts: [{ text: input }] }],
-        config: {
-          systemInstruction: "You are Meg, the soulful AI representative of Megam Live. You help users understand our M365 services, SAP integrations, and high-touch support. You are professional, tech-savvy, and warm. You speak with clarity and occasional poetic flair about the future of work.",
-          temperature: 0.7,
-        }
+        contents: [...history, { role: 'user', parts: [{ text: textToSend }] }],
+        config: { systemInstruction, temperature: 0.7 }
       });
 
-      const modelText = response.text || "I'm processing your request. Could you clarify that for me?";
+      const modelText = response.text || "I'm reviewing that detail for you now.";
       setMessages(prev => [...prev, { role: 'model', text: modelText, timestamp: new Date() }]);
-    } catch (error) {
-      setMessages(prev => [...prev, { role: 'model', text: "Protocol disruption detected. Please try again or contact our human architects directly.", timestamp: new Date() }]);
+      
+      analyzeForEscalation([...messages, userMsg, { role: 'model', text: modelText, timestamp: new Date() }]);
+    } catch (e) {
+      setMessages(prev => [...prev, { role: 'model', text: "Protocol delay. Please synchronize directly via letsdoit@megam.live.", timestamp: new Date() }]);
     } finally {
       setIsTyping(false);
     }
   };
 
+  const analyzeForEscalation = async (history: Message[]) => {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const analysisPrompt = `Extract Lead Summary JSON: { name, company, email, topic, systems, timeline, painStatement, nextStep }. Return only JSON.`;
+
+    try {
+      const res = await ai.models.generateContent({
+        model: 'gemini-3-flash-preview',
+        contents: history.map(h => ({ role: h.role, parts: [{ text: h.text }] })).concat([{ role: 'user', parts: [{ text: analysisPrompt }] }]),
+        config: { responseMimeType: "application/json" }
+      });
+      
+      const parsed = JSON.parse(res.text || '{}');
+      if (parsed.email && parsed.email.includes('@')) {
+        setLeadData(parsed);
+        if (state !== 'ESCALATED') setState('QUALIFYING');
+      }
+    } catch (e) {}
+  };
+
+  const escalateToArchitect = () => {
+    const subject = encodeURIComponent(`Lead Brief: ${leadData.topic || 'M365 Discovery'}`);
+    const body = encodeURIComponent(
+      `MEGAM CONCIERGE: ARCHITECT BRIEF\n` +
+      `--------------------------------\n` +
+      `CLIENT: ${leadData.name} @ ${leadData.company}\n` +
+      `EMAIL: ${leadData.email}\n` +
+      `INTEREST: ${leadData.topic}\n` +
+      `SYSTEMS: ${leadData.systems}\n` +
+      `TIMELINE: ${leadData.timeline}\n` +
+      `PAIN POINT: ${leadData.painStatement}\n` +
+      `--------------------------------\n`
+    );
+    window.location.href = `mailto:${CONTACT_INFO.email}?subject=${subject}&body=${body}`;
+    setState('ESCALATED');
+  };
+
   return (
-    <div className="fixed bottom-24 right-8 z-[60] flex flex-col items-end">
-      {/* Chat Window */}
+    <div className="fixed bottom-6 right-4 sm:bottom-24 sm:right-8 z-[60] flex flex-col items-end">
       {isOpen && (
-        <div className="mb-4 w-[350px] sm:w-[400px] h-[550px] bg-white/80 dark:bg-brand-surface/90 backdrop-blur-2xl border border-slate-200 dark:border-white/10 rounded-[2rem] shadow-2xl flex flex-col overflow-hidden animate-blur-in">
-          {/* Header */}
-          <div className="p-6 bg-gradient-to-r from-brand-primary/10 to-brand-neon/10 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
-            <div className="flex items-center gap-3">
+        <div 
+          className="mb-4 w-[calc(100vw-32px)] sm:w-[420px] h-[700px] max-h-[calc(100vh-160px)] bg-white dark:bg-brand-surface/98 backdrop-blur-3xl border border-slate-200 dark:border-white/10 rounded-[2rem] sm:rounded-[3rem] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.4)] flex flex-col overflow-hidden animate-blur-in origin-bottom-right"
+          role="dialog"
+          aria-label="Megam Concierge Chat"
+        >
+          {/* STICKY HEADER - Always Visible */}
+          <div className="sticky top-0 z-30 p-6 sm:p-8 bg-white/90 dark:bg-black/80 backdrop-blur-md border-b border-slate-100 dark:border-white/5 flex items-center justify-between shrink-0">
+            <div className="flex items-center gap-4">
               <div className="relative">
-                <div className="w-10 h-10 rounded-full bg-brand-primary/20 flex items-center justify-center text-brand-primary dark:text-brand-neon animate-neural-pulse">
-                  <Bot size={20} />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-brand-primary/10 flex items-center justify-center text-brand-primary dark:text-brand-neon border border-brand-primary/20 animate-neural-pulse" aria-hidden="true">
+                  <UserCheck size={28} />
                 </div>
-                <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-brand-success rounded-full border-2 border-white dark:border-brand-surface"></div>
+                <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-brand-success rounded-full border-2 border-white dark:border-brand-surface"></div>
               </div>
               <div>
-                <h4 className="font-bold text-slate-900 dark:text-white text-sm">Meg</h4>
-                <div className="flex items-center gap-2 opacity-60">
-                   <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-brand-primary dark:text-brand-neon">Architect Node v4</span>
-                </div>
+                <h4 className="font-bold text-slate-900 dark:text-white text-base sm:text-lg tracking-tight">Megam Concierge</h4>
+                <p className="text-[9px] sm:text-[10px] font-mono font-bold text-brand-primary dark:text-brand-neon/80 uppercase tracking-widest">Architectural Uplink</p>
               </div>
             </div>
-            <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-slate-100 dark:hover:bg-white/5 rounded-full transition-colors text-slate-400">
+            <button 
+              onClick={() => setIsOpen(false)} 
+              className="p-2 hover:bg-slate-200 dark:hover:bg-white/10 rounded-full transition-colors text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
+              aria-label="Close Chat"
+            >
               <X size={20} />
             </button>
           </div>
 
-          {/* Context HUD */}
-          {context && (
-            <div className="px-6 py-2 bg-slate-50/50 dark:bg-black/20 border-b border-slate-100 dark:border-white/5 flex justify-between">
-              <div className="flex items-center gap-3 text-[8px] font-mono text-slate-400 uppercase tracking-tighter">
-                <span className="flex items-center gap-1"><MapPin size={8} /> {context.timeZone.split('/')[1] || 'Global'}</span>
-                <span className="flex items-center gap-1"><Clock size={8} /> {context.time}</span>
-                <span className="flex items-center gap-1"><Globe size={8} /> {context.lang.toUpperCase()}</span>
-              </div>
-              <div className="text-[8px] font-mono text-brand-success uppercase font-bold tracking-widest animate-pulse">Live</div>
-            </div>
-          )}
-
-          {/* Messages */}
-          <div className="flex-grow overflow-y-auto p-6 space-y-6 scrollbar-hide">
+          {/* SCROLLABLE MESSAGE CONTAINER */}
+          <div 
+            className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-8 scrollbar-hide bg-gradient-to-b from-white to-slate-50/50 dark:from-brand-surface dark:to-black/20"
+            aria-live="polite"
+            role="log"
+          >
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed shadow-sm ${
+                <div className={`max-w-[90%] p-5 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] text-[14px] sm:text-[15px] leading-relaxed shadow-sm transition-all ${
                   m.role === 'user' 
                   ? 'bg-brand-primary text-white rounded-tr-none' 
-                  : 'bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-gray-300 rounded-tl-none border border-slate-200 dark:border-white/5'
+                  : 'bg-white dark:bg-white/5 text-slate-700 dark:text-gray-200 rounded-tl-none border border-slate-100 dark:border-white/5'
                 }`}>
-                  {m.text}
+                  <div className="whitespace-pre-wrap">{m.text}</div>
                 </div>
               </div>
             ))}
             {isTyping && (
               <div className="flex justify-start">
-                <div className="bg-slate-100 dark:bg-white/5 p-4 rounded-2xl rounded-tl-none flex gap-1 items-center">
-                  <div className="w-1.5 h-1.5 bg-brand-primary rounded-full animate-bounce"></div>
-                  <div className="w-1.5 h-1.5 bg-brand-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-1.5 h-1.5 bg-brand-primary rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                <div className="bg-white dark:bg-white/5 p-4 px-6 rounded-full flex gap-2 items-center border border-slate-100 dark:border-white/5 shadow-sm" aria-label="Concierge is typing">
+                  <div className="w-1.5 h-1.5 bg-brand-primary/40 rounded-full animate-bounce"></div>
+                  <div className="w-1.5 h-1.5 bg-brand-primary/40 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-1.5 h-1.5 bg-brand-primary/40 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
                 </div>
               </div>
             )}
+            
+            {state === 'GREETING' && !isTyping && messages.length > 0 && (
+              <div className="space-y-4 pt-4 animate-hero-sub-stagger" role="group" aria-label="Quick inquiry options">
+                <div className="flex items-center gap-3 ml-2">
+                   <div className="h-px w-6 bg-slate-200 dark:bg-white/10" aria-hidden="true"></div>
+                   <p className="text-[11px] font-bold text-slate-400 dark:text-gray-500 uppercase tracking-widest">Select an Exploration</p>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { label: "Suites", icon: Layout, text: "Explore Product Suites" },
+                    { label: "Sync", icon: Database, text: "Tell me about SAP Integration" },
+                    { label: "Services", icon: Cpu, text: "Architecture Services" },
+                    { label: "Architect", icon: Shield, text: "Talk to an Architect", primary: true }
+                  ].map((opt, i) => (
+                    <button 
+                      key={i}
+                      onClick={() => handleSend(opt.text)} 
+                      className={`p-4 sm:p-5 rounded-2xl sm:rounded-3xl text-left border transition-all hover:scale-[1.03] active:scale-95 flex flex-col gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary ${
+                        opt.primary 
+                        ? 'bg-brand-primary/10 border-brand-primary/30 text-brand-primary hover:bg-brand-primary/20' 
+                        : 'bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-700 dark:text-white hover:border-brand-primary/30'
+                      }`}
+                    >
+                      <opt.icon size={20} className={opt.primary ? "text-brand-primary" : "text-slate-400 group-hover:text-brand-primary"} aria-hidden="true" />
+                      <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">{opt.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {state === 'QUALIFYING' && leadData.email && (
+              <div className="mt-8 p-6 sm:p-8 bg-brand-primary/5 dark:bg-brand-primary/10 border border-brand-primary/20 rounded-[2rem] sm:rounded-[2.5rem] space-y-6 animate-blur-in">
+                <div className="flex items-center gap-3">
+                   <div className="w-2.5 h-2.5 rounded-full bg-brand-success animate-pulse shadow-[0_0_12px_#10b981]" aria-hidden="true"></div>
+                   <span className="text-[11px] font-mono font-bold text-brand-primary dark:text-brand-neon uppercase tracking-widest">Summary Captured</span>
+                </div>
+                <p className="text-[14px] text-slate-600 dark:text-gray-300 leading-relaxed font-medium">
+                  I've mapped out your request for <span className="text-slate-900 dark:text-white font-bold">{leadData.company}</span>. Our lead architect will review the brief.
+                </p>
+                <button 
+                  onClick={escalateToArchitect}
+                  className="w-full py-4 sm:py-5 bg-brand-primary text-white rounded-xl sm:rounded-2xl font-bold uppercase tracking-[0.3em] text-[10px] sm:text-[11px] flex items-center justify-center gap-3 group shadow-xl shadow-brand-primary/20 hover:scale-[1.02] transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-brand-surface"
+                >
+                  Confirm & Send <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                </button>
+                <p className="text-[9px] text-center text-slate-400 dark:text-gray-600 uppercase tracking-widest font-mono">
+                  Human Response Within 24h
+                </p>
+              </div>
+            )}
+
+            {state === 'ESCALATED' && (
+              <div className="mt-8 p-8 sm:p-10 bg-brand-success/10 border border-brand-success/30 rounded-[2.5rem] sm:rounded-[3rem] text-center animate-blur-in">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-brand-success/20 rounded-full flex items-center justify-center text-brand-success mx-auto mb-6">
+                  <Check size={32} strokeWidth={3} aria-hidden="true" />
+                </div>
+                <h5 className="font-bold text-brand-success uppercase tracking-[0.3em] text-xs mb-3">Protocol Complete</h5>
+                <p className="text-sm text-slate-600 dark:text-gray-300 font-medium leading-relaxed">The brief is with our team. A real person will be in touch shortly.</p>
+              </div>
+            )}
+
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Footer */}
-          <div className="p-4 bg-slate-50 dark:bg-black/40 border-t border-slate-100 dark:border-white/5">
+          {/* STICKY FOOTER - Always Visible */}
+          <div className="sticky bottom-0 z-30 p-5 sm:p-6 bg-white/95 dark:bg-black/90 backdrop-blur-md border-t border-slate-100 dark:border-white/5 shrink-0">
             <div className="relative">
+              <label htmlFor="chat-input" className="sr-only">Message the Concierge</label>
               <input 
+                id="chat-input"
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="Synchronize with Meg..."
-                className="w-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl py-3 pl-4 pr-12 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-brand-primary transition-all"
+                placeholder="Synchronize with Concierge..."
+                className="w-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl sm:rounded-2xl py-4 sm:py-5 pl-6 sm:pl-7 pr-14 sm:pr-16 text-[14px] sm:text-[15px] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary transition-all shadow-inner"
               />
               <button 
-                onClick={handleSend}
+                onClick={() => handleSend()}
                 disabled={!input.trim() || isTyping}
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-brand-primary hover:text-brand-neon transition-colors disabled:opacity-30"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-3 text-brand-primary hover:text-brand-neon transition-colors disabled:opacity-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary rounded-lg"
+                aria-label="Send Message"
               >
-                <Send size={18} />
+                <Send size={24} aria-hidden="true" />
               </button>
             </div>
-            <div className="mt-2 flex justify-center">
-               <span className="text-[8px] font-mono text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                 <Command size={8} /> AI Response Grounded in Enterprise Data
+            <div className="mt-4 sm:mt-5 flex justify-between items-center px-2">
+               <span className="text-[8px] sm:text-[9px] font-mono font-bold text-slate-400 dark:text-gray-600 uppercase tracking-[0.25em] flex items-center gap-2">
+                 <Shield size={10} className="text-brand-primary/40" aria-hidden="true" /> Architect-routed.
                </span>
+               <div className="flex gap-1.5 opacity-20" aria-hidden="true">
+                  <div className="w-1 h-1 bg-brand-primary rounded-full"></div>
+                  <div className="w-1 h-1 bg-brand-primary rounded-full"></div>
+                  <div className="w-1 h-1 bg-brand-primary rounded-full"></div>
+               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Floating Trigger */}
+      {/* Trigger Button */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className={`relative w-16 h-16 rounded-full flex items-center justify-center transition-all duration-500 shadow-2xl overflow-hidden group ${
-          isOpen 
-          ? 'bg-slate-200 dark:bg-white/10 rotate-90' 
-          : 'bg-brand-primary hover:scale-110 active:scale-95'
+        className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-[1.8rem] sm:rounded-[2.2rem] flex items-center justify-center transition-all duration-500 shadow-2xl overflow-hidden group border border-white/20 focus:outline-none focus-visible:ring-4 focus-visible:ring-brand-primary ${
+          isOpen ? 'bg-slate-200 dark:bg-white/10 rotate-90 scale-90' : 'bg-brand-primary hover:scale-110 active:scale-95 shadow-[0_20px_60px_-15px_rgba(59,130,246,0.5)]'
         }`}
+        aria-label={isOpen ? "Close Concierge" : "Open Concierge"}
+        aria-expanded={isOpen}
       >
-        <div className="absolute inset-0 bg-gradient-to-tr from-brand-primary to-brand-neon opacity-0 group-hover:opacity-100 transition-opacity"></div>
         {isOpen ? (
-          <X className="text-slate-600 dark:text-white relative z-10" />
+          <X className="text-slate-600 dark:text-white" size={28} aria-hidden="true" />
         ) : (
-          <>
-            <MessageSquare className="text-white relative z-10" />
-            <div className="absolute inset-0 border-2 border-white/20 rounded-full animate-ping"></div>
-            <div className="absolute top-2 right-2 w-3 h-3 bg-brand-neon rounded-full shadow-[0_0_10px_#00f0ff] animate-pulse"></div>
-          </>
+          <div className="relative">
+            <MessageSquare className="text-white" size={28} aria-hidden="true" />
+            <div className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-brand-neon rounded-full shadow-[0_0_20px_#00f0ff] animate-pulse flex items-center justify-center">
+               <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>
+            </div>
+          </div>
         )}
       </button>
     </div>

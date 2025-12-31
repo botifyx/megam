@@ -4,7 +4,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Megam Live | AI + M365 Operations</title>
+    <title>Megam Live | AI-Native Microsoft 365 Workflow Automation</title>
+    <meta name="description" content="Megam Live engineers high-touch Microsoft 365 solutions and artwork approval workflows for regulated industries. Expert SAP integration and M365 governance." />
+    <meta name="keywords" content="Microsoft 365 workflow automation, artwork approval workflows, SAP integration automation, AI project management, M365 governance" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://megam.live/" />
+    <meta property="og:title" content="Megam Live | AI-Native Microsoft 365 Operations" />
+    <meta property="og:description" content="Engineering precision M365 solutions for regulated industries. SAP sync, artwork labeling, and enterprise automation." />
+    <meta property="og:image" content="https://megam.live/og-image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://megam.live/" />
+    <meta property="twitter:title" content="Megam Live | AI-Native Microsoft 365 Operations" />
+    <meta property="twitter:description" content="Engineering precision M365 solutions for regulated industries. SAP sync, artwork labeling, and enterprise automation." />
+    <meta property="twitter:image" content="https://megam.live/og-image.png" />
+
+    <!-- Structured Data: Organization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Megam Live",
+        "url": "https://megam.live",
+        "logo": "https://megam.live/logo.png",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+1-646-634-1052",
+          "contactType": "customer service",
+          "email": "letsdoit@megam.live",
+          "areaServed": "US",
+          "availableLanguage": "en"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/company/megam-live"
+        ]
+      }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -13,13 +52,13 @@
           extend: {
             colors: {
               brand: {
-                dark: '#020617', // Slate 950
-                surface: '#0B1121', // Darker Slate
-                primary: '#3b82f6', // Blue 500
-                secondary: '#6366f1', // Indigo 500
-                accent: '#06b6d4', // Cyan 500 - More "Cyber"
-                success: '#10b981', // Emerald
-                neon: '#00f0ff', // Bright Cyber Cyan
+                dark: '#020617', 
+                surface: '#0B1121', 
+                primary: '#3b82f6', 
+                secondary: '#6366f1', 
+                accent: '#06b6d4', 
+                success: '#10b981', 
+                neon: '#00f0ff', 
               }
             },
             fontFamily: {
@@ -50,13 +89,12 @@
               'grid-move': 'gridMove 20s linear infinite',
               'neural-pulse': 'neuralPulse 4s ease-in-out infinite',
               'thinking-flicker': 'thinkingFlicker 2s ease-in-out infinite',
-              
-              // New Hero Animations
               'wipe-in-right': 'wipeInRight 1s cubic-bezier(0.22, 1, 0.36, 1) forwards',
               'hero-text-focus': 'heroTextFocus 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
               'hero-sub-stagger': 'heroSubStagger 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
               'tracking-in-expand': 'trackingInExpand 1.2s cubic-bezier(0.215, 0.610, 0.355, 1.000) both',
               'cinematic-reveal': 'cinematicReveal 1.5s cubic-bezier(0.19, 1, 0.22, 1) both',
+              'hero-title-reveal': 'heroTitleReveal 1.4s cubic-bezier(0.19, 1, 0.22, 1) both',
             },
             keyframes: {
               spinReverse: {
@@ -145,8 +183,6 @@
                 '40%': { opacity: 0.9 },
                 '80%': { opacity: 0.5 },
               },
-              
-              // New Keyframes
               wipeInRight: {
                 '0%': { clipPath: 'inset(0 100% 0 0)', opacity: 0, filter: 'contrast(1.5)' },
                 '100%': { clipPath: 'inset(0 0 0 0)', opacity: 1, filter: 'contrast(1)' },
@@ -167,6 +203,10 @@
               cinematicReveal: {
                 '0%': { transform: 'translateY(100%)', opacity: 0, filter: 'blur(10px)' },
                 '100%': { transform: 'translateY(0)', opacity: 1, filter: 'blur(0)' }
+              },
+              heroTitleReveal: {
+                '0%': { transform: 'translateY(120%)', letterSpacing: '-0.3em', opacity: 0, filter: 'blur(15px)' },
+                '100%': { transform: 'translateY(0)', letterSpacing: 'normal', opacity: 1, filter: 'blur(0)' }
               }
             }
           },
@@ -185,43 +225,16 @@
         background-color: #020617;
         color: #f8fafc;
       }
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      .dark ::-webkit-scrollbar-track {
-        background: #020617;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 3px;
-      }
-      .dark ::-webkit-scrollbar-thumb {
-        background: #1e293b;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #3b82f6;
-      }
-      
-      .perspective-1000 {
-        perspective: 1000px;
-      }
-      
-      .rotate-x-12 {
-        transform: rotateX(12deg);
-      }
-      
-      .hologram-text {
-        text-shadow: 0 0 10px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.3);
-      }
-
-      .text-mask {
-        overflow: hidden;
-        display: block;
-      }
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      .dark ::-webkit-scrollbar-track { background: #020617; }
+      ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+      .dark ::-webkit-scrollbar-thumb { background: #1e293b; }
+      ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+      .perspective-1000 { perspective: 1000px; }
+      .rotate-x-12 { transform: rotateX(12deg); }
+      .hologram-text { text-shadow: 0 0 10px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.3); }
+      .text-mask { overflow: hidden; display: block; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">

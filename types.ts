@@ -4,18 +4,21 @@ import { LucideIcon } from 'lucide-react';
 export interface Suite {
   id: string;
   title: string;
+  productType: string;
+  maturity: 'Production' | 'Pilot' | 'Early Production';
   shortDescription: string;
   fullDescription: string;
   features: string[];
   benefits: string[];
-  iconName: 'Layout' | 'Bot' | 'RefreshCw';
+  iconName: 'Layout' | 'Bot' | 'RefreshCw' | 'Shield' | 'BarChart3' | 'Layers' | 'Box';
+  badges: string[];
+  externalLink?: string;
 }
 
 export interface Service {
   id: string;
   title: string;
   description: string;
-  // Added 'RefreshCw' to the allowed icon names for Services
   iconName: 'Brain' | 'MessageSquare' | 'AppWindow' | 'Database' | 'Shield' | 'Share2' | 'RefreshCw';
 }
 
@@ -36,4 +39,15 @@ export interface CaseStudy {
   title: string;
   outcome: string;
   metrics: Metric[];
+}
+
+export interface LeadSummary {
+  name: string;
+  company: string;
+  email: string;
+  topic: string;
+  systems: string;
+  timeline: string;
+  painStatement: string;
+  nextStep: 'Demo' | 'Blueprint' | 'Discovery Call';
 }

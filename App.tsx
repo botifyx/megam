@@ -12,6 +12,7 @@ import Privacy from './pages/Privacy';
 import PageLoader from './components/PageLoader';
 import ScrollToTopButton from './components/ScrollToTopButton';
 import MegChat from './components/MegChat';
+import SEOManager from './components/SEOManager';
 import { ThemeProvider } from './context/ThemeContext';
 
 const ScrollToTop = () => {
@@ -33,10 +34,11 @@ const AppContent: React.FC = () => {
         <PageLoader onComplete={() => setIsLoading(false)} />
       ) : (
         <Router>
+          <SEOManager />
           <ScrollToTop />
           <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-brand-dark text-slate-900 dark:text-slate-100 font-sans selection:bg-brand-primary selection:text-white transition-colors duration-500">
             <Navbar />
-            <main className="flex-grow">
+            <main id="main-content" className="flex-grow">
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/suites" element={<Suites />} />
