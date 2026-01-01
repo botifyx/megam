@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '../lib/firebase';
-import { onAuthStateChanged, setPersistence, browserLocalPersistence } from "firebase/auth";
+import { onAuthStateChanged, setPersistence, browserLocalPersistence, signInAnonymously } from "firebase/auth";
 
 
 interface ReleaseEvent {
@@ -33,7 +33,9 @@ const LiveOpsConsole: React.FC = () => {
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        console.warn("User not authenticated yet");
+        console.log("Initiating anonymous authentication...");
+        signInAnonymously(auth).catch(console.error);
+        return;
       }
 
       try {
