@@ -76,7 +76,7 @@ const MegChat: React.FC = () => {
   const initializeConcierge = async () => {
     setIsTyping(true);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
       const prompt = `Provide a warm, professional, human-centric greeting for a visitor at ${context.time}. 
       Invite them to explore our M365 products or meet with an architect. 
       Keep it short (2 sentences). No lists.`;
@@ -111,7 +111,7 @@ const MegChat: React.FC = () => {
     setIsTyping(true);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
       const history = messages.map(m => ({ role: m.role, parts: [{ text: m.text }] }));
       
       const response = await ai.models.generateContent({
@@ -132,7 +132,7 @@ const MegChat: React.FC = () => {
   };
 
   const analyzeForEscalation = async (history: Message[]) => {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
     const analysisPrompt = `Extract Lead Summary JSON: { name, company, email, topic, systems, timeline, painStatement, nextStep }. Return only JSON.`;
 
     try {
