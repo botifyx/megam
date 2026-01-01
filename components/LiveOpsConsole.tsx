@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '../lib/firebase';
-import { browserLocalPersistence, onAuthStateChanged, setPersistence } from "firebase/auth";
+import { onAuthStateChanged, setPersistence, browserLocalPersistence } from "firebase/auth";
 
 
 interface ReleaseEvent {
@@ -27,7 +27,10 @@ const LiveOpsConsole: React.FC = () => {
 
   useEffect(() => {
     setPersistence(auth, browserLocalPersistence)
-      .catch(console.error);
+      .catch((err) => {
+        console.error("Error setting persistence:", err);
+      });
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         console.warn("User not authenticated yet");
