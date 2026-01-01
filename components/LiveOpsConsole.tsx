@@ -7,8 +7,8 @@ import {
   Workflow, Network, Layers
 } from 'lucide-react';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../lib/firebase';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { db, auth } from '../lib/firebase';
+import { browserLocalPersistence, onAuthStateChanged, setPersistence } from "firebase/auth";
 
 
 interface ReleaseEvent {
@@ -25,9 +25,9 @@ const LiveOpsConsole: React.FC = () => {
   // Broadened historical pool for more dynamic rotation
   const [eventPool, setEventPool] = useState<ReleaseEvent[]>([]);
 
-  const auth = getAuth();
-
   useEffect(() => {
+    setPersistence(auth, browserLocalPersistence)
+      .catch(console.error);
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         console.warn("User not authenticated yet");
