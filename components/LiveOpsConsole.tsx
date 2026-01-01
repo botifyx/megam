@@ -34,7 +34,6 @@ const LiveOpsConsole: React.FC = () => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         console.warn("User not authenticated yet");
-        return;
       }
 
       try {
