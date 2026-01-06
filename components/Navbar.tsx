@@ -31,33 +31,35 @@ const Navbar: React.FC = () => {
   return (
     <>
       {/* Skip to Content Link */}
-      <a 
-        href="#main-content" 
+      <a
+        href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-brand-primary focus:text-white focus:rounded-lg focus:font-bold focus:shadow-2xl"
       >
         Skip to main content
       </a>
 
-      <nav 
-        className={`fixed w-full z-50 transition-all duration-500 ${
-          scrolled 
-            ? 'bg-white/90 dark:bg-brand-dark/95 backdrop-blur-md border-b border-brand-primary/10 dark:border-brand-primary/20 py-3 shadow-lg' 
-            : 'bg-transparent py-6'
-        }`}
+      <nav
+        className={`fixed w-full z-50 transition-all duration-500 ${scrolled
+          ? 'bg-white/90 dark:bg-brand-dark/95 backdrop-blur-md border-b border-brand-primary/10 dark:border-brand-primary/20 py-3 shadow-lg'
+          : 'bg-transparent py-6'
+          }`}
         aria-label="Main Navigation"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary rounded-lg" aria-label={`${APP_NAME} Home`}>
               <div className="relative">
-                <Logo height={42} className="group-hover:scale-110 transition-transform duration-500" />
+                {/* Fixed Logo prop: changed height to size to align with LogoProps in Logo.tsx */}
+                <img
+                  src={theme === 'dark' ? "/Logo_Dark.png" : "/Logo_Light.png"}
+                  alt="Megam Logo"
+                  className={`w-auto transition-all duration-300 ${theme === 'dark' ? 'h-12' : 'h-40'
+                    }`}
+                />
                 <div className="absolute inset-0 bg-brand-neon/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
-              <span className="font-bold text-xl tracking-tighter text-slate-900 dark:text-white group-hover:text-brand-primary dark:group-hover:text-brand-neon transition-all duration-300">
-                {APP_NAME}
-              </span>
             </Link>
-            
+
             <div className="hidden md:flex items-center gap-2">
               <ul className="flex items-baseline space-x-1 mr-4" role="list">
                 {navLinks.map((link) => {
@@ -67,11 +69,10 @@ const Navbar: React.FC = () => {
                       <Link
                         to={link.path}
                         aria-current={isActive ? 'page' : undefined}
-                        className={`relative px-4 py-2 text-[11px] font-bold transition-all duration-300 group rounded overflow-hidden font-mono uppercase tracking-widest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary flex items-center h-10 ${
-                          isActive
-                            ? 'text-brand-primary dark:text-brand-neon' 
-                            : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                        }`}
+                        className={`relative px-4 py-2 text-[11px] font-bold transition-all duration-300 group rounded overflow-hidden font-mono uppercase tracking-widest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary flex items-center h-10 ${isActive
+                          ? 'text-brand-primary dark:text-brand-neon'
+                          : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                          }`}
                       >
                         <div className="absolute inset-0 bg-brand-primary/5 dark:bg-brand-neon/5 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 z-0"></div>
                         <span className="relative z-10 transition-all duration-300 inline-block">
@@ -84,7 +85,7 @@ const Navbar: React.FC = () => {
                 })}
               </ul>
 
-              <button 
+              <button
                 onClick={toggleTheme}
                 className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
                 aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
@@ -94,7 +95,7 @@ const Navbar: React.FC = () => {
             </div>
 
             <div className="-mr-2 flex md:hidden items-center gap-3">
-              <button 
+              <button
                 onClick={toggleTheme}
                 className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
                 aria-label="Toggle Theme"
@@ -114,7 +115,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
 
-        <div 
+        <div
           id="mobile-menu"
           className={`md:hidden bg-white/98 dark:bg-brand-dark/98 backdrop-blur-2xl border-b border-brand-primary/10 dark:border-brand-primary/20 transition-all duration-300 ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}
         >
@@ -124,10 +125,9 @@ const Navbar: React.FC = () => {
                 <Link
                   to={link.path}
                   onClick={() => setIsOpen(false)}
-                  className={`block px-4 py-3 rounded text-sm font-mono uppercase tracking-widest transition-all ${
-                      location.pathname === link.path 
-                        ? 'text-brand-primary dark:text-brand-neon bg-brand-primary/5 dark:bg-brand-primary/10' 
-                        : 'text-slate-500 dark:text-gray-400 hover:text-brand-primary dark:hover:text-brand-neon'
+                  className={`block px-4 py-3 rounded text-sm font-mono uppercase tracking-widest transition-all ${location.pathname === link.path
+                    ? 'text-brand-primary dark:text-brand-neon bg-brand-primary/5 dark:bg-brand-primary/10'
+                    : 'text-slate-500 dark:text-gray-400 hover:text-brand-primary dark:hover:text-brand-neon'
                     }`}
                 >
                   {link.name}

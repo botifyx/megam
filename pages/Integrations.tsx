@@ -58,7 +58,7 @@ const Integrations: React.FC = () => {
     },
     {
       title: "Event-Driven Engagement & Notifications",
-      desc: "Propagates validated enterprise events—such as material changes or production milestones—into Microsoft Teams and dashboards.",
+      desc: "Propagates validated enterprise events, such as material changes or production milestones, into Microsoft Teams and dashboards.",
       howItWorks: [
         "Events trigger neural logic hooks",
         "Permission-aware routing to Teams/Copilot",
@@ -70,7 +70,7 @@ const Integrations: React.FC = () => {
     },
     {
       title: "External Data & Content Exchange",
-      desc: "Secure, governed data exchange between Microsoft 365 and external systems like packaging or data providers.",
+      desc: "Secure, governed data exchange between Microsoft 365 and external systems, like packaging or data providers.",
       howItWorks: [
         "M365 remains the orchestration layer",
         "API-based integration patterns",
@@ -127,7 +127,7 @@ const Integrations: React.FC = () => {
                  Eliminate the barrier between <span className="text-slate-900 dark:text-white font-bold">Systems of Record</span> and <span className="text-brand-primary font-bold">Systems of Engagement</span>.
               </p>
               <p className="text-base md:text-lg text-slate-500 dark:text-gray-400 font-light max-w-3xl mx-auto leading-relaxed">
-                 Megam Live engineers secure, governed integration frameworks that connect enterprise systems like SAP with Microsoft 365—without compromising compliance, traceability, or control.
+                 Megam Live engineers secure, governed integration frameworks that connect enterprise systems like SAP with Microsoft 365, without compromising compliance, traceability, or control.
               </p>
               <div className="mt-8 flex justify-center items-center gap-6">
                 <span className="h-[1px] w-12 bg-slate-200 dark:bg-white/10"></span>
@@ -197,7 +197,6 @@ const Integrations: React.FC = () => {
 
                 {/* Right: Systems of Engagement */}
                 <div className="lg:col-span-3 text-center flex flex-col items-center group">
-                   {/* Removed overflow-hidden so the bottom badge is not clipped */}
                    <div className="w-32 h-32 md:w-44 md:h-44 bg-gradient-to-br from-[#6366f1] to-[#4f46e5] rounded-3xl flex items-center justify-center shadow-xl mb-8 transition-all duration-700 group-hover:scale-105 group-hover:shadow-brand-secondary/30 border-4 border-white/10 relative">
                       <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity animate-pulse rounded-[inherit]"></div>
                       <div className="grid grid-cols-2 gap-2 text-white/90 relative z-10">
@@ -231,7 +230,7 @@ const Integrations: React.FC = () => {
              <h2 className="text-[10px] font-mono font-bold text-brand-primary uppercase tracking-[0.5em] mb-4">The Strategic Advantage</h2>
              <h3 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight transition-colors">Why This Matters</h3>
              <p className="text-xl text-slate-600 dark:text-gray-400 font-light leading-relaxed">
-                Traditional point-to-point integrations create risk, duplication, and audit gaps. 
+                Traditional point-to-point integrations create risk and duplication, as well as audit gaps. 
                 <span className="text-brand-primary dark:text-brand-neon font-bold"> Planetary Sync™</span> provides a <span className="text-slate-900 dark:text-white border-b-2 border-brand-primary/20">controlled logic bridge</span> that allows Microsoft 365 to orchestrate business processes while SAP and other enterprise systems remain the system of record.
              </p>
            </div>
