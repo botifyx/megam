@@ -53,12 +53,12 @@ const InteractiveBadge: React.FC<InteractiveBadgeProps> = ({
       onMouseEnter={() => setIsActive(true)}
       onMouseLeave={() => setIsActive(false)}
     >
+      {/* Dynamic Entrance Ping */}
       {isShown && !isInitialized && (
         <div className="absolute inset-0 rounded-lg border-2 border-brand-primary dark:border-brand-neon animate-ping opacity-30 pointer-events-none" aria-hidden="true"></div>
       )}
 
       <button
-        type="button"
         aria-describedby={badgeId}
         onFocus={() => setIsActive(true)}
         onBlur={() => setIsActive(false)}
@@ -72,13 +72,23 @@ const InteractiveBadge: React.FC<InteractiveBadgeProps> = ({
           }
         `}
       >
+        {/* Holographic Scanning Light Effect */}
         <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/40 dark:via-brand-neon/20 to-transparent -translate-x-full transition-transform duration-[1200ms] ease-in-out ${isActive ? 'translate-x-full' : ''}`} aria-hidden="true"></div>
-        <span className="relative z-10 transition-colors duration-300 group-hover:text-slate-900 dark:group-hover:text-white">{label}</span>
+        
+        <span className="relative z-10 transition-colors duration-300 group-hover:text-slate-900 dark:group-hover:text-white">
+          {label}
+        </span>
+        
         <div className="relative z-10 flex items-center justify-center" aria-hidden="true">
-          {isActive ? <Sparkles size={10} className="text-brand-primary dark:text-brand-neon animate-pulse" /> : <Info size={10} className="opacity-40 transition-opacity" />}
+          {isActive ? (
+            <Sparkles size={10} className="text-brand-primary dark:text-brand-neon animate-pulse" />
+          ) : (
+            <Info size={10} className="opacity-40 transition-opacity" />
+          )}
         </div>
       </button>
 
+      {/* Advanced Logic Tooltip */}
       <div 
         id={badgeId}
         role="tooltip"
@@ -89,18 +99,30 @@ const InteractiveBadge: React.FC<InteractiveBadgeProps> = ({
           ${isActive ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-90'}
         `}
       >
+        {/* Visual Decoration Elements */}
         <div className="absolute top-2 left-2 w-1 h-1 bg-brand-primary dark:bg-brand-neon rounded-full opacity-30" aria-hidden="true"></div>
         <div className="absolute top-2 right-2 w-1 h-1 bg-brand-primary dark:bg-brand-neon rounded-full opacity-30" aria-hidden="true"></div>
+        
         <div className="relative z-10 space-y-3">
           <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
             <div className="flex items-center gap-2">
               <Activity size={10} className="text-brand-primary dark:text-brand-neon" aria-hidden="true" />
               <span className="text-slate-900 dark:text-white font-black text-[9px] uppercase tracking-[0.2em]">Module_Protocol</span>
             </div>
-            <div className="flex gap-0.5" aria-hidden="true"><div className="w-1.5 h-1.5 bg-brand-success rounded-full animate-pulse shadow-[0_0_8px_#10b981]"></div></div>
+            <div className="flex gap-0.5" aria-hidden="true">
+               <div className="w-1.5 h-1.5 bg-brand-success rounded-full animate-pulse shadow-[0_0_8px_#10b981]"></div>
+            </div>
           </div>
-          <p className="text-[10px] font-mono leading-relaxed text-slate-600 dark:text-gray-300 font-medium">{details.description}</p>
+          <p className="text-[10px] font-mono leading-relaxed text-slate-600 dark:text-gray-300 font-medium">
+            {details.description}
+          </p>
+          <div className="pt-1 flex items-center gap-2 text-[7px] font-mono text-slate-400 dark:text-gray-600 uppercase tracking-widest border-t border-slate-50 dark:border-white/5 pt-2" aria-hidden="true">
+            <div className="w-4 h-[1px] bg-slate-200 dark:bg-white/10"></div>
+            Grounding: Enterprise Logic Nodes
+          </div>
         </div>
+        
+        {/* Arrow Decoration */}
         <div className="absolute top-full left-1/2 -translate-x-1/2 w-4 h-4 bg-white dark:bg-brand-surface border-r border-b border-slate-200 dark:border-white/10 rotate-45 -mt-2" aria-hidden="true"></div>
       </div>
     </div>

@@ -40,8 +40,8 @@ const Navbar: React.FC = () => {
 
       <nav
         className={`fixed w-full z-50 transition-all duration-500 ${scrolled
-          ? 'bg-white/90 dark:bg-brand-dark/95 backdrop-blur-md border-b border-brand-primary/10 dark:border-brand-primary/20 py-3 shadow-lg'
-          : 'bg-transparent py-6'
+            ? 'bg-white/90 dark:bg-brand-dark/95 backdrop-blur-md border-b border-brand-primary/10 dark:border-brand-primary/20 py-3 shadow-lg'
+            : 'bg-transparent py-6'
           }`}
         aria-label="Main Navigation"
       >
@@ -70,8 +70,8 @@ const Navbar: React.FC = () => {
                         to={link.path}
                         aria-current={isActive ? 'page' : undefined}
                         className={`relative px-4 py-2 text-[11px] font-bold transition-all duration-300 group rounded overflow-hidden font-mono uppercase tracking-widest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary flex items-center h-10 ${isActive
-                          ? 'text-brand-primary dark:text-brand-neon'
-                          : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                            ? 'text-brand-primary dark:text-brand-neon'
+                            : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                           }`}
                       >
                         <div className="absolute inset-0 bg-brand-primary/5 dark:bg-brand-neon/5 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 z-0"></div>
@@ -126,8 +126,8 @@ const Navbar: React.FC = () => {
                   to={link.path}
                   onClick={() => setIsOpen(false)}
                   className={`block px-4 py-3 rounded text-sm font-mono uppercase tracking-widest transition-all ${location.pathname === link.path
-                    ? 'text-brand-primary dark:text-brand-neon bg-brand-primary/5 dark:bg-brand-primary/10'
-                    : 'text-slate-500 dark:text-gray-400 hover:text-brand-primary dark:hover:text-brand-neon'
+                      ? 'text-brand-primary dark:text-brand-neon bg-brand-primary/5 dark:bg-brand-primary/10'
+                      : 'text-slate-500 dark:text-gray-400 hover:text-brand-primary dark:hover:text-brand-neon'
                     }`}
                 >
                   {link.name}

@@ -1,14 +1,18 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  CheckCircle, History, ShieldCheck, 
+import {
+  CheckCircle, History, ShieldCheck,
   Zap, Boxes, Database, Activity, Code,
   Cpu, Globe, Lock, Share2, Terminal,
   Workflow, Network, Layers
 } from 'lucide-react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db, auth } from '../lib/firebase';
+import { onAuthStateChanged, setPersistence, browserLocalPersistence, signInAnonymously } from "firebase/auth";
+
 
 interface ReleaseEvent {
-  id: number;
+  id: string | number;
   monthYear: string;
   product: string;
   feature: string;
@@ -17,20 +21,42 @@ interface ReleaseEvent {
 }
 
 const LiveOpsConsole: React.FC = () => {
-  const eventPool: ReleaseEvent[] = useMemo(() => [
-    { id: 1, monthYear: 'MAR 2025', product: 'Artwork Today', feature: 'GTIN-driven Item Master with SAP OData Sync', status: 'PRODUCTION', source: 'SRC::SAP_CONNECTOR' },
-    { id: 2, monthYear: 'MAR 2025', product: 'Copilot Agents', feature: 'Neural Memory Layer for Multi-turn Conversations', status: 'PRODUCTION', source: 'SRC::AI_ENGINE_v4' },
-    { id: 3, monthYear: 'FEB 2025', product: 'Project Tracker', feature: 'Portfolio Dashboard with Gantt & Dependency View', status: 'VALIDATED', source: 'SRC::M365_GRAPH' },
-    { id: 4, monthYear: 'FEB 2025', product: 'GxP Guard', feature: '21 CFR Part-11 Automated Signature Protocol', status: 'PRODUCTION', source: 'SRC::COMPLIANCE_NODE' },
-    { id: 5, monthYear: 'JAN 2025', product: 'Copilot Agents', feature: 'SharePoint-Scoped AI Agent with Permission Inheritance', status: 'PRODUCTION', source: 'SRC::NEURAL_ENGINE' },
-    { id: 6, monthYear: 'JAN 2025', product: 'Artwork Today', feature: 'Vendor Handshake v2 with Encrypted OData Tunnel', status: 'VALIDATED', source: 'SRC::S4_TUNNEL' },
-    { id: 7, monthYear: 'DEC 2024', product: 'Artwork Today', feature: 'Audit-Ready Approval Logs (GxP Aligned)', status: 'PRODUCTION', source: 'SRC::GUARD_NODE' },
-    { id: 8, monthYear: 'DEC 2024', product: 'Sync Layer', feature: 'RFC Refresh Cycle v4.1 Optimization', status: 'PRODUCTION', source: 'SRC::S4_CORE' },
-    { id: 9, monthYear: 'NOV 2024', product: 'Megam Pulse', feature: 'Employee Signals & Knowledge Discovery (Graph-Powered)', status: 'UAT', source: 'SRC::GRAPH_FABRIC' },
-    { id: 10, monthYear: 'OCT 2024', product: 'Custom Intranets', feature: 'Branded News Hubs with Decentralized Knowledge', status: 'PILOT', source: 'SRC::UX_LAYER' },
-    { id: 11, monthYear: 'SEP 2024', product: 'SAP Sync', feature: 'Real-time Material Master Sync Overload Patch', status: 'PRODUCTION', source: 'SRC::S4_CORE' },
-    { id: 12, monthYear: 'AUG 2024', product: 'Security Node', feature: 'DLP Policy Scan Complete for Regulated Tenants', status: 'VALIDATED', source: 'SRC::NET_SHIELD' },
-  ], []);
+  // Broadened historical pool for more dynamic rotation
+  // Broadened historical pool for more dynamic rotation
+  const [eventPool, setEventPool] = useState<ReleaseEvent[]>([]);
+
+  useEffect(() => {
+    setPersistence(auth, browserLocalPersistence)
+      .catch((err) => {
+        console.error("Error setting persistence:", err);
+      });
+
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        console.log("Initiating anonymous authentication...");
+        signInAnonymously(auth).catch(console.error);
+        return;
+      }
+
+      try {
+        const querySnapshot = await getDocs(
+          collection(db, "megamliveworks")
+        );
+
+        const events = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        setEventPool(events);
+      } catch (err) {
+        console.error("Error fetching live ops events:", err);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
 
   const [visibleStartIndex, setVisibleStartIndex] = useState(0);
   const [metrics, setMetrics] = useState({
@@ -41,10 +67,12 @@ const LiveOpsConsole: React.FC = () => {
     packetLoss: 0.00
   });
 
+  // Cycle through events more frequently for a "live" feel
   useEffect(() => {
     const cycleInterval = setInterval(() => {
-      setVisibleStartIndex(prev => (prev + 1) % eventPool.length);
-      
+      setVisibleStartIndex(prev => (eventPool.length > 0 ? (prev + 1) % eventPool.length : 0));
+
+      // Jitter metrics with more varied data points
       setMetrics(prev => ({
         cpu: parseFloat((18 + Math.random() * 8).toFixed(1)),
         ops: parseFloat((120 + Math.random() * 15).toFixed(1)),
@@ -68,27 +96,33 @@ const LiveOpsConsole: React.FC = () => {
   };
 
   const visibleEvents = useMemo(() => {
+    if (eventPool.length === 0) return [];
     const result = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
       result.push(eventPool[(visibleStartIndex + i) % eventPool.length]);
     }
     return result;
   }, [visibleStartIndex, eventPool]);
 
   return (
-    <div 
+    <div
       aria-label="Release Intelligence Console"
       className="w-full max-w-lg mx-auto bg-white/95 dark:bg-brand-surface/90 backdrop-blur-3xl border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden shadow-2xl dark:shadow-brand-primary/20 relative group transition-all duration-500"
     >
+
+      {/* HUD Corner Elements */}
       <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-brand-primary/40 dark:border-brand-neon/30 z-30 opacity-60" aria-hidden="true"></div>
       <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-brand-primary/40 dark:border-brand-neon/30 z-30 opacity-60" aria-hidden="true"></div>
       <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-brand-primary/40 dark:border-brand-neon/30 z-30 opacity-60" aria-hidden="true"></div>
       <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-brand-primary/40 dark:border-brand-neon/30 z-30 opacity-60" aria-hidden="true"></div>
 
+      {/* Intensified Primary Scanning Line */}
       <div className="absolute left-0 right-0 h-[4px] bg-gradient-to-r from-transparent via-brand-primary dark:via-brand-neon to-transparent shadow-[0_0_30px_rgba(0,240,255,0.9)] z-40 animate-scan-line pointer-events-none opacity-90" aria-hidden="true"></div>
-      
+
+      {/* High-Fidelity CRT Scanline & Grid Overlay */}
       <div className="absolute inset-0 pointer-events-none z-10 opacity-[0.05] dark:opacity-[0.08] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[size:100%_2px,3px_100%]" aria-hidden="true"></div>
 
+      {/* Header Area */}
       <div className="bg-slate-100/90 dark:bg-brand-dark/95 px-6 py-6 flex items-center justify-between border-b border-slate-200 dark:border-white/5 transition-colors relative z-20">
         <div className="flex items-center gap-6">
           <div className="flex gap-2.5" aria-hidden="true">
@@ -98,54 +132,56 @@ const LiveOpsConsole: React.FC = () => {
           </div>
           <div className="h-8 w-[1px] bg-slate-300 dark:bg-white/10" aria-hidden="true"></div>
           <div className="flex flex-col">
-             <span className="text-[12px] font-mono text-slate-900 dark:text-brand-neon tracking-[0.3em] font-black flex items-center gap-2 uppercase">
-               <Terminal size={14} className="text-brand-primary dark:text-brand-neon animate-pulse" aria-hidden="true" /> Release Intelligence
-             </span>
-             <div className="flex items-center gap-2 text-[9px] font-mono text-slate-400 dark:text-gray-600 tracking-widest font-bold">
-               <span>SYS_NODES_LIVE</span>
-               <span className="w-1.5 h-1.5 bg-brand-primary/40 rounded-full animate-ping" aria-hidden="true"></span>
-               <span>v4.1.0_PROD</span>
-             </div>
+            <span className="text-[12px] font-mono text-slate-900 dark:text-brand-neon tracking-[0.3em] font-black flex items-center gap-2 uppercase">
+              <Terminal size={14} className="text-brand-primary dark:text-brand-neon animate-pulse" aria-hidden="true" /> Release Intelligence
+            </span>
+            <div className="flex items-center gap-2 text-[9px] font-mono text-slate-400 dark:text-gray-600 tracking-widest font-bold">
+              <span>SYS_NODES_LIVE</span>
+              <span className="w-1.5 h-1.5 bg-brand-primary/40 rounded-full animate-ping" aria-hidden="true"></span>
+              <span>v4.1.0_PROD</span>
+            </div>
           </div>
         </div>
         <div className="flex flex-col items-end gap-1">
-           <div className="flex items-center gap-2.5 px-4 py-2 bg-brand-primary/5 dark:bg-brand-primary/10 rounded-xl border border-brand-primary/20 group-hover:border-brand-primary/50 transition-all shadow-[0_0_20px_rgba(59,130,246,0.15)]">
-             <div className="relative flex h-2 w-2" aria-hidden="true">
-               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
-               <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
-             </div>
-             <span className="text-[11px] uppercase font-black text-brand-primary dark:text-brand-neon tracking-[0.2em] font-mono">Telemetry: Nominal</span>
-           </div>
+          <div className="flex items-center gap-2.5 px-4 py-2 bg-brand-primary/5 dark:bg-brand-primary/10 rounded-xl border border-brand-primary/20 group-hover:border-brand-primary/50 transition-all shadow-[0_0_20px_rgba(59,130,246,0.15)]">
+            <div className="relative flex h-2 w-2" aria-hidden="true">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
+            </div>
+            <span className="text-[11px] uppercase font-black text-brand-primary dark:text-brand-neon tracking-[0.2em] font-mono">Telemetry: Nominal</span>
+          </div>
         </div>
       </div>
-      
-      <div 
-        className="p-10 font-mono text-xs space-y-6 min-h-[460px] relative z-20 overflow-hidden"
+
+      {/* Content Canvas */}
+      <div
+        className="p-4 font-mono text-xs space-y-6 min-h-[320px] relative z-20 overflow-hidden"
         aria-live="polite"
-        aria-label="Recent system releases stream"
+        aria-label="Recent system releases"
       >
-         <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.04)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none opacity-60" aria-hidden="true"></div>
-         
-         <div className="relative space-y-5">
+        {/* Advanced Perspective Grid Background */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.04)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none opacity-60" aria-hidden="true"></div>
+
+        <div className="relative space-y-5">
           {visibleEvents.map((event, index) => {
             const statusConfig = getStatusConfig(event.status);
             const StatusIcon = statusConfig.icon;
-            
+
             return (
-              <div 
+              <div
                 key={`${event.id}-${visibleStartIndex}-${index}`}
-                role="article"
                 className={`relative flex items-center gap-6 p-5 rounded-3xl border transition-all duration-1000 
-                  ${index === 0 
-                    ? 'bg-white/90 dark:bg-white/15 border-brand-primary/30 dark:border-brand-neon/30 shadow-[0_15px_40px_rgba(59,130,246,0.1)] translate-y-0 opacity-100 scale-100 animate-blur-in' 
+                  ${index === 0
+                    ? 'bg-white/90 dark:bg-white/15 border-brand-primary/30 dark:border-brand-neon/30 shadow-[0_15px_40px_rgba(59,130,246,0.1)] translate-y-0 opacity-100 scale-100 animate-blur-in'
                     : index === 1
-                    ? 'bg-transparent border-slate-100 dark:border-white/5 opacity-70 scale-[0.98]'
-                    : index === 2
-                    ? 'bg-transparent border-transparent opacity-40 scale-[0.96] blur-[0.8px]'
-                    : index === 3
-                    ? 'bg-transparent border-transparent opacity-20 scale-[0.94] blur-[1.5px]'
-                    : 'bg-transparent border-transparent opacity-10 scale-[0.92] blur-[2.5px]'}`}
+                      ? 'bg-transparent border-slate-100 dark:border-white/5 opacity-70 scale-[0.98]'
+                      : index === 2
+                        ? 'bg-transparent border-transparent opacity-40 scale-[0.96] blur-[0.8px]'
+                        : index === 3
+                          ? 'bg-transparent border-transparent opacity-20 scale-[0.94] blur-[1.5px]'
+                          : 'bg-transparent border-transparent opacity-10 scale-[0.92] blur-[2.5px]'}`}
               >
+                {/* Visual Status Indicator for the lead item */}
                 {index === 0 && (
                   <div className="absolute left-[-4px] top-1/2 -translate-y-1/2 w-[8px] h-12 bg-brand-primary dark:bg-brand-neon rounded-full shadow-[0_0_15px_currentColor] animate-pulse" aria-hidden="true"></div>
                 )}
@@ -159,15 +195,14 @@ const LiveOpsConsole: React.FC = () => {
                   </span>
                 </div>
 
-                <div className={`shrink-0 p-3.5 rounded-2xl border transition-all duration-700 ${
-                  index === 0 
-                  ? 'bg-brand-primary/15 dark:bg-brand-neon/20 border-brand-primary/40 dark:border-brand-neon/40 text-brand-primary dark:text-brand-neon scale-110 shadow-lg shadow-brand-primary/10' 
+                <div className={`shrink-0 p-3.5 rounded-2xl border transition-all duration-700 ${index === 0
+                  ? 'bg-brand-primary/15 dark:bg-brand-neon/20 border-brand-primary/40 dark:border-brand-neon/40 text-brand-primary dark:text-brand-neon scale-110 shadow-lg shadow-brand-primary/10'
                   : 'bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-400 dark:text-gray-600'}`}>
-                  {event.product.includes('Artwork') ? <Workflow size={18} strokeWidth={2.5} aria-hidden="true" /> : 
-                   event.product.includes('Copilot') ? <Network size={18} strokeWidth={2.5} aria-hidden="true" /> :
-                   event.product.includes('SAP') || event.product.includes('Sync') ? <Database size={18} strokeWidth={2.5} aria-hidden="true" /> :
-                   event.product.includes('Project') ? <Layers size={18} strokeWidth={2.5} aria-hidden="true" /> :
-                   <Code size={18} strokeWidth={2.5} aria-hidden="true" />}
+                  {event.product.includes('Artwork') ? <Workflow size={18} strokeWidth={2.5} aria-hidden="true" /> :
+                    event.product.includes('Copilot') ? <Network size={18} strokeWidth={2.5} aria-hidden="true" /> :
+                      event.product.includes('SAP') || event.product.includes('Sync') ? <Database size={18} strokeWidth={2.5} aria-hidden="true" /> :
+                        event.product.includes('Project') ? <Layers size={18} strokeWidth={2.5} aria-hidden="true" /> :
+                          <Code size={18} strokeWidth={2.5} aria-hidden="true" />}
                 </div>
 
                 <div className="flex flex-col min-w-0 flex-grow">
@@ -189,41 +224,43 @@ const LiveOpsConsole: React.FC = () => {
               </div>
             );
           })}
-         </div>
+        </div>
       </div>
-      
+
+      {/* Footer Status Bar */}
       <div className="bg-slate-100/95 dark:bg-brand-dark/95 px-8 py-6 border-t border-slate-200 dark:border-white/10 flex items-center justify-between text-[11px] text-slate-500 dark:text-gray-500 font-mono transition-all relative z-20">
         <div className="flex gap-10 items-center">
-           <div className="flex flex-col gap-2">
-              <span className="flex items-center gap-3 text-slate-900 dark:text-white transition-colors cursor-default">
-                 <ShieldCheck size={16} className="text-brand-success drop-shadow-[0_0_8px_rgba(16,185,129,0.6)]" aria-hidden="true" /> 
-                 <span className="font-black uppercase tracking-[0.3em] text-[11px]">Enterprise Validated</span>
-              </span>
-              <div className="flex items-center gap-3" aria-label="Compliance status">
-                <span className="text-[10px] text-slate-400 dark:text-gray-600 uppercase tracking-widest font-black">SOC-ALIGNED</span>
-                <span className="w-1.5 h-1.5 bg-slate-300 dark:bg-white/10 rounded-full" aria-hidden="true"></span>
-                <span className="text-[10px] text-slate-400 dark:text-gray-600 uppercase tracking-widest font-black">AUDIT-READY</span>
-              </div>
-           </div>
+          <div className="flex flex-col gap-2">
+            <span className="flex items-center gap-3 text-slate-900 dark:text-white transition-colors cursor-default">
+              <ShieldCheck size={16} className="text-brand-success drop-shadow-[0_0_8px_rgba(16,185,129,0.6)]" aria-hidden="true" />
+              <span className="font-black uppercase tracking-[0.3em] text-[11px]">Enterprise Validated</span>
+            </span>
+            <div className="flex items-center gap-3" aria-label="Compliance status">
+              <span className="text-[10px] text-slate-400 dark:text-gray-600 uppercase tracking-widest font-black">SOC-ALIGNED</span>
+              <span className="w-1.5 h-1.5 bg-slate-300 dark:bg-white/10 rounded-full" aria-hidden="true"></span>
+              <span className="text-[10px] text-slate-400 dark:text-gray-600 uppercase tracking-widest font-black">AUDIT-READY</span>
+            </div>
+          </div>
         </div>
 
-        <div className="flex flex-col items-end gap-2.5 text-brand-primary dark:text-brand-neon font-bold" aria-label="System telemetry metrics">
-           <div className="flex items-center gap-3 bg-brand-primary/5 dark:bg-brand-primary/10 px-4 py-1.5 rounded-xl border border-brand-primary/20">
-              <div className="flex gap-1.5" aria-hidden="true">
-                <div className="w-1.5 h-1.5 bg-brand-primary rounded-full animate-bounce"></div>
-                <div className="w-1.5 h-1.5 bg-brand-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                <div className="w-1.5 h-1.5 bg-brand-primary rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
-              </div>
-              <span className="uppercase tracking-[0.2em] text-[10px]">Uplink Sync {metrics.sync.toFixed(0)}%</span>
-           </div>
-           <div className="flex gap-6 text-[10px] text-slate-400 dark:text-gray-600 font-black uppercase tracking-tighter">
-              <span className="flex items-center gap-1.5" aria-label={`CPU Load: ${metrics.cpu} percent`}><Cpu size={12} className="text-brand-primary" aria-hidden="true" /> {metrics.cpu}%</span>
-              <span className="flex items-center gap-1.5" aria-label={`Latency: ${metrics.lat} milliseconds`}><Globe size={12} className="text-brand-primary" aria-hidden="true" /> {metrics.lat}MS</span>
-              {metrics.packetLoss > 0 && <span className="flex items-center gap-1.5 text-brand-secondary">LOSS {metrics.packetLoss}%</span>}
-           </div>
+        <div className="flex flex-col items-end gap-2.5 text-brand-primary dark:text-brand-neon font-bold" aria-label="System telemetry">
+          <div className="flex items-center gap-3 bg-brand-primary/5 dark:bg-brand-primary/10 px-4 py-1.5 rounded-xl border border-brand-primary/20">
+            <div className="flex gap-1.5" aria-hidden="true">
+              <div className="w-1.5 h-1.5 bg-brand-primary rounded-full animate-bounce"></div>
+              <div className="w-1.5 h-1.5 bg-brand-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              <div className="w-1.5 h-1.5 bg-brand-primary rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+            </div>
+            <span className="uppercase tracking-[0.2em] text-[10px]">Uplink Sync {metrics.sync.toFixed(0)}%</span>
+          </div>
+          <div className="flex gap-6 text-[10px] text-slate-400 dark:text-gray-600 font-black uppercase tracking-tighter">
+            <span className="flex items-center gap-1.5" aria-label={`CPU Load: ${metrics.cpu} percent`}><Cpu size={12} className="text-brand-primary" aria-hidden="true" /> {metrics.cpu}%</span>
+            <span className="flex items-center gap-1.5" aria-label={`Latency: ${metrics.lat} milliseconds`}><Globe size={12} className="text-brand-primary" aria-hidden="true" /> {metrics.lat}MS</span>
+            {metrics.packetLoss > 0 && <span className="flex items-center gap-1.5 text-brand-secondary">LOSS {metrics.packetLoss}%</span>}
+          </div>
         </div>
       </div>
 
+      {/* Interactive Glossy Highlight */}
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-transparent via-white/[0.04] dark:via-white/[0.1] to-transparent z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" aria-hidden="true"></div>
     </div>
   );

@@ -31,6 +31,7 @@ const Home: React.FC = () => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          // Increased interval to 3 seconds for better readability
           interval = window.setInterval(() => {
             setActivePillarIndex((prev) => (prev + 1) % 4);
           }, 3000);
@@ -123,6 +124,7 @@ const Home: React.FC = () => {
 
           <div className="p-10 flex flex-col items-center justify-center text-center flex-grow">
              <div className={`relative mb-8 transition-all duration-700 transform-gpu ${isActive ? 'text-brand-primary dark:text-brand-neon scale-110' : 'text-slate-300 dark:text-gray-600 group-hover:text-brand-primary dark:group-hover:text-brand-neon group-hover:scale-105'}`}>
+                {/* Enhanced Neural Pulse Background */}
                 <div className={`absolute inset-[-20px] rounded-full blur-2xl transition-all duration-1000 ${isActive ? 'bg-brand-primary/20 dark:bg-brand-neon/20 opacity-100 animate-pulse' : 'bg-brand-primary/0 opacity-0'}`} aria-hidden="true"></div>
                 <div className={`absolute inset-[-10px] rounded-full border border-brand-primary/10 dark:border-brand-neon/10 transition-all duration-1000 ${isActive ? 'scale-125 opacity-40' : 'scale-75 opacity-0'}`} aria-hidden="true"></div>
                 
@@ -143,10 +145,12 @@ const Home: React.FC = () => {
              </div>
           </div>
 
+          {/* Precision Scanning Line */}
           {isActive && (
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-brand-primary dark:bg-brand-neon animate-scan-line pointer-events-none opacity-40 shadow-[0_0_15px_currentColor]" aria-hidden="true"></div>
           )}
 
+          {/* Corner Decals */}
           {isActive && (
              <div className="absolute bottom-2 right-2 flex gap-1 opacity-40" aria-hidden="true">
                 <div className="w-1 h-1 bg-brand-primary dark:bg-brand-neon"></div>
@@ -185,16 +189,10 @@ const Home: React.FC = () => {
                   </span>
                 </span>
               </h1>
-              
-              <div className="space-y-6 max-w-2xl mx-auto lg:mx-0 opacity-0 animate-cinematic-reveal transition-colors" style={{ animationDelay: '0.5s' }}>
-                <p className="text-xl md:text-2xl text-slate-700 dark:text-blue-100/90 leading-relaxed font-medium">
-                  Engineering high-touch <span className="text-slate-900 dark:text-white font-extrabold border-b-2 border-brand-primary/20 px-1">Microsoft 365 solutions</span> and artwork approval workflows for regulated industries.
-                </p>
-                <p className="text-lg md:text-xl text-slate-500 dark:text-blue-200/60 leading-relaxed font-light italic">
-                  Precision workflows enhanced by Copilot-driven intelligence and governed automation.
-                </p>
-              </div>
-
+              <p className="text-xl text-slate-600 dark:text-blue-200/70 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light opacity-0 animate-cinematic-reveal transition-colors" style={{ animationDelay: '0.5s' }}>
+                Engineering high-touch <span className="text-slate-900 dark:text-white font-semibold border-b border-brand-primary/40">Microsoft 365 solutions</span> and artwork approval workflows for regulated industries.<br />
+                Precision workflows enhanced by Copilot-driven intelligence and governed automation.
+              </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start opacity-0 animate-hero-sub-stagger" style={{ animationDelay: '0.8s' }}>
                 <Link to="/contact" className="w-full sm:w-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary rounded-lg">
                   <button className="group relative w-full px-10 py-5 bg-brand-primary text-white rounded-lg font-bold transition-all duration-300 shadow-xl hover:shadow-brand-primary/30 dark:hover:shadow-brand-primary/50 overflow-hidden">

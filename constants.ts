@@ -125,7 +125,7 @@ export const PRODUCT_SUITES: Suite[] = [
     productType: "Digital Workplace Solution",
     maturity: "Early Production",
     shortDescription: "Organization’s Pulse on Knowledge, Communication, and Context",
-    fullDescription: "Megam Pulse is an intelligent digital workplace designed to reflect the real-time pulse of your organization. It brings together communication, knowledge, and context into a unified Microsoft 365 experience. Built as a modern intranet foundation, it enables employees to find information faster and stay aligned with organizational updates.",
+    fullDescription: "Megam Pulse is an intelligent digital workplace designed to reflect the real-time pulse of your organization—bringing together communication, knowledge, and context into a unified Microsoft 365 experience. Built as a modern intranet foundation, it enables employees to find information faster and stay aligned with organizational updates.",
     features: [
       "Branded news and communication hubs",
       "Departmental workspaces and knowledge libraries",
@@ -147,8 +147,8 @@ export const PRODUCT_SUITES: Suite[] = [
     title: "Material Master",
     productType: "Enterprise Workflow Platform",
     maturity: "Production",
-    shortDescription: "Governed Material & BOM Management for Microsoft 365-based workflow platform with SAP Synchronization",
-    fullDescription: "The Material Master solution is a Microsoft 365-based workflow platform that centralizes and governs the end-to-end Material Master and BOM creation process. It replaces manual spreadsheets with a structured, role-driven system of record. Once validated, approved data is securely synchronized into SAP, maintaining full traceability.",
+    shortDescription: "Governed Material & BOM Management for Microsoft 365 with SAP Synchronization",
+    fullDescription: "The Material Master solution is a Microsoft 365–based workflow platform that centralizes and governs the end-to-end Material Master and BOM creation process. It replaces manual spreadsheets with a structured, role-driven system of record. Once validated, approved data is securely synchronized into SAP, maintaining full traceability.",
     features: [
       "Centralized Material Master and BOM workflows",
       "Role-based contributions and validations",
@@ -195,13 +195,13 @@ export const M365_SERVICES: Service[] = [
   {
     id: "sharepoint",
     title: "SharePoint Online Architecture",
-    description: "Designing modern SharePoint architectures for intranets, process automation, document management, and governed collaboration, aligned with enterprise security and compliance standards.",
+    description: "Designing modern SharePoint architectures for intranets, process automation, document management, and governed collaboration—aligned with enterprise security and compliance standards.",
     iconName: "AppWindow"
   },
   {
     id: "power-automate",
     title: "Power Automate Workflow Automation",
-    description: "Designing and governing Power Automate workflows to streamline approvals, integrations, and operational processes across Microsoft 365 without compromising control or auditability.",
+    description: "Designing and governing Power Automate workflows to streamline approvals, integrations, and operational processes across Microsoft 365—without compromising control or auditability.",
     iconName: "RefreshCw"
   },
   {
