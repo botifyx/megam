@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
               <img
                 src={theme === 'dark' ? "/Logo_Dark.png" : "/Logo_Light.png"}
                 alt="Megam Logo"
-                className={`w-auto transition-all duration-300 ${theme === 'dark' ? 'h-12' : 'h-40'
+                className={`w-auto transition-all duration-300 ${theme === 'dark' ? 'h-12' : 'h-12'
                   }`}
               />
             </div>
