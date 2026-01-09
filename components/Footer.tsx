@@ -46,9 +46,9 @@ const Footer: React.FC = () => {
                 <Mail size={14} className="text-brand-primary group-hover/info:scale-110 transition-transform" />
                 <span className="font-mono tracking-tight">letsdoit@megam.live</span>
               </a>
-              <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-gray-500 cursor-default group/info">
-                <MapPin size={14} className="text-brand-primary" />
-                <span className="font-mono tracking-tight">101 Eisenhower Parkway, Suite 300, Roseland, NJ 07068</span>
+              <div className="flex items-start gap-3 text-sm text-slate-500 dark:text-gray-500 cursor-default group/info">
+                <MapPin size={14} className="text-brand-primary shrink-0 mt-1" />
+                <span className="font-mono tracking-tight whitespace-pre-line">{CONTACT_INFO.location}</span>
               </div>
             </div>
           </div>
