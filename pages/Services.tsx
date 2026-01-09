@@ -8,7 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import SpotlightCard from '../components/SpotlightCard';
 import RevealOnScroll from '../components/RevealOnScroll';
-import { Helmet } from 'react-helmet-async';
+import Head from '../components/Head';
 import { useTheme } from '../context/ThemeContext';
 
 const Services: React.FC = () => {
@@ -17,11 +17,11 @@ const Services: React.FC = () => {
 
    return (
       <div className="pt-24 pb-20 bg-slate-50 dark:bg-brand-dark min-h-screen relative overflow-hidden transition-colors duration-500">
-         <Helmet>
-            <title>Microsoft 365 Operations & Engineering Services | Megam Live</title>
-            <meta name="description" content="Scale your Microsoft 365 environment with Megam Live's enterprise-grade engineering, governance, and architecture services. Specialized ecosystems for regulated industries." />
-            <meta name="keywords" content="Microsoft 365, M365 Engineering, Governance, Architecture, SharePoint, Teams, Azure, Power Platform, Regulated Industries" />
-         </Helmet>
+         <Head
+            title="Microsoft 365 Operations & Engineering Services | Megam Live"
+            description="Scale your Microsoft 365 environment with Megam Live's enterprise-grade engineering, governance, and architecture services. Specialized ecosystems for regulated industries."
+            keywords="Microsoft 365, M365 Engineering, Governance, Architecture, SharePoint, Teams, Azure, Power Platform, Regulated Industries"
+         />
          <div className="absolute inset-0 z-0 pointer-events-none">
             <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,rgba(59,130,246,0.1)_0%,transparent_60%)] dark:bg-[radial-gradient(circle_at_50%_-20%,rgba(59,130,246,0.15)_0%,transparent_60%)]"></div>
             <div className="absolute top-1/2 right-0 w-[800px] h-[800px] bg-brand-neon/5 rounded-full blur-[140px] animate-pulse-slow"></div>
