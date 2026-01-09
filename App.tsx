@@ -6,8 +6,8 @@ import Footer from './components/Footer';
 import PageLoader from './components/PageLoader';
 import SuspenseLoader from './components/SuspenseLoader';
 import ScrollToTopButton from './components/ScrollToTopButton';
-import MegChat from './components/MegChat';
 import SEOManager from './components/SEOManager';
+const MegChat = lazy(() => import('./components/MegChat'));
 import { ThemeProvider } from './context/ThemeContext';
 
 // Lazy load page components
@@ -56,7 +56,9 @@ const AppContent: React.FC = () => {
             </main>
             <Footer />
             <ScrollToTopButton />
-            <MegChat />
+            <Suspense fallback={null}>
+              <MegChat />
+            </Suspense>
           </div>
         </Router>
       )}

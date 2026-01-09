@@ -11,6 +11,7 @@ export interface Suite {
   features: string[];
   benefits: string[];
   iconName: 'Layout' | 'Bot' | 'RefreshCw' | 'Shield' | 'BarChart3' | 'Layers' | 'Box';
+  logo?: string;
   badges: string[];
   externalLink?: string;
 }

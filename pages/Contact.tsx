@@ -27,7 +27,7 @@ const Contact: React.FC = () => {
     companySize: '',
     region: '',
     message: '',
-    hp_website: '' // Honeypot field
+    fax_number: '' // Honeypot field - invisible to humans, seen by bots
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -140,7 +140,16 @@ const Contact: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.hp_website) return;
+    // Silent spam protection: if honeypot is filled, simulate success but do nothing
+    if (formData.fax_number) {
+      setIsSubmitting(true);
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setIsSuccess(true);
+        setTimeout(() => setIsSuccess(false), 5000);
+      }, 800);
+      return;
+    }
 
     if (!isWorkEmail(formData.email)) {
       setError("Please use your company email address. We prioritize enterprise inquiries.");
@@ -252,9 +261,18 @@ const Contact: React.FC = () => {
                     <p className="text-slate-400 dark:text-gray-500 text-[11px] font-light tracking-[0.1em] uppercase">Fields marked with <span className="text-brand-primary dark:text-brand-neon font-bold">*</span> are mandatory protocols.</p>
                   </div>
 
-                  <div className="hidden" aria-hidden="true">
-                    <label htmlFor="hp_website">Your Website</label>
-                    <input id="hp_website" tabIndex={-1} autoComplete="off" name="hp_website" value={formData.hp_website} onChange={handleInputChange} />
+                  {/* Honeypot Field - Hidden for users, visible to bots */}
+                  <div className="opacity-0 absolute top-0 left-0 h-0 w-0 z-[-1] pointer-events-none overflow-hidden" aria-hidden="true">
+                    <label htmlFor="fax_number">Fax Number</label>
+                    <input
+                      id="fax_number"
+                      name="fax_number"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={formData.fax_number}
+                      onChange={handleInputChange}
+                    />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -262,11 +280,11 @@ const Contact: React.FC = () => {
                       <label htmlFor="firstName" className="text-[10px] font-mono font-bold text-brand-primary dark:text-brand-neon uppercase tracking-[0.25em] flex items-center gap-2">
                         <User size={12} aria-hidden="true" /> First Name *
                       </label>
-                      <input required id="firstName" name="firstName" value={formData.firstName} onChange={handleInputChange} type="text" placeholder="Jane" className="w-full bg-white dark:bg-black/60 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-base text-slate-900 dark:text-white focus:border-brand-primary dark:focus:border-brand-neon focus:ring-1 focus:ring-brand-primary/20 outline-none transition-all" />
+                      <input required id="firstName" name="firstName" value={formData.firstName} onChange={handleInputChange} type="text" placeholder="Jane" className="w-full bg-white dark:bg-black/60 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-base text-slate-900 dark:text-white focus:border-brand-primary dark:focus:border-brand-neon focus:ring-1 focus:ring-brand-primary/20 outline-none transition-all" aria-invalid={false} />
                     </div>
                     <div className="space-y-3">
                       <label htmlFor="lastName" className="text-[10px] font-mono font-bold text-brand-primary dark:text-brand-neon uppercase tracking-[0.25em]">Last Name *</label>
-                      <input required id="lastName" name="lastName" value={formData.lastName} onChange={handleInputChange} type="text" placeholder="Smith" className="w-full bg-white dark:bg-black/60 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-base text-slate-900 dark:text-white focus:border-brand-primary dark:focus:border-brand-neon focus:ring-1 focus:ring-brand-primary/20 outline-none transition-all" />
+                      <input required id="lastName" name="lastName" value={formData.lastName} onChange={handleInputChange} type="text" placeholder="Smith" className="w-full bg-white dark:bg-black/60 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-base text-slate-900 dark:text-white focus:border-brand-primary dark:focus:border-brand-neon focus:ring-1 focus:ring-brand-primary/20 outline-none transition-all" aria-invalid={false} />
                     </div>
                   </div>
 
@@ -274,7 +292,7 @@ const Contact: React.FC = () => {
                     <label htmlFor="email" className="text-[10px] font-mono font-bold text-brand-primary dark:text-brand-neon uppercase tracking-[0.25em] flex items-center gap-2">
                       <Mail size={12} aria-hidden="true" /> Work Email *
                     </label>
-                    <input required id="email" name="email" value={formData.email} onChange={handleInputChange} type="email" placeholder="jane.smith@enterprise.com" className={`w-full bg-white dark:bg-black/60 border rounded-xl p-4 text-base text-slate-900 dark:text-white focus:ring-1 focus:ring-brand-primary/20 outline-none transition-all ${formData.email && !isWorkEmail(formData.email) ? 'border-red-400' : 'border-slate-200 dark:border-white/10 focus:border-brand-primary dark:focus:border-brand-neon'}`} />
+                    <input required id="email" name="email" value={formData.email} onChange={handleInputChange} type="email" placeholder="jane.smith@enterprise.com" className={`w-full bg-white dark:bg-black/60 border rounded-xl p-4 text-base text-slate-900 dark:text-white focus:ring-1 focus:ring-brand-primary/20 outline-none transition-all ${formData.email && !isWorkEmail(formData.email) ? 'border-red-400' : 'border-slate-200 dark:border-white/10 focus:border-brand-primary dark:focus:border-brand-neon'}`} aria-invalid={!!(formData.email && !isWorkEmail(formData.email))} aria-describedby={error ? "form-error-message" : undefined} />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -461,7 +479,7 @@ const Contact: React.FC = () => {
                   </div>
 
                   <div aria-live="polite" className="min-h-[20px]">
-                    {error && <div className="p-4 bg-red-400/10 border border-red-400/30 rounded-xl flex items-start gap-3 animate-hero-sub-stagger"><Info size={16} className="text-red-400 shrink-0 mt-1" aria-hidden="true" /><p className="text-xs text-red-400 font-bold uppercase tracking-tight leading-relaxed">{error}</p></div>}
+                    {error && <div id="form-error-message" className="p-4 bg-red-400/10 border border-red-400/30 rounded-xl flex items-start gap-3 animate-hero-sub-stagger" role="alert"><Info size={16} className="text-red-400 shrink-0 mt-1" aria-hidden="true" /><p className="text-xs text-red-400 font-bold uppercase tracking-tight leading-relaxed">{error}</p></div>}
                     {isSuccess && <div className="p-4 bg-brand-success/10 border border-brand-success/30 rounded-xl flex items-start gap-3 animate-hero-sub-stagger"><Check size={16} className="text-brand-success shrink-0 mt-1" aria-hidden="true" /><p className="text-xs text-brand-success font-bold uppercase tracking-tight leading-relaxed">Discovery sequence initialized. Opening local mail agent...</p></div>}
                   </div>
 
