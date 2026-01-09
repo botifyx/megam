@@ -72,23 +72,15 @@ const Home: React.FC = () => {
             aria-controls={`panel-${suite.id}`}
             id={`tab-${suite.id}`}
             className={`relative flex-1 flex flex-col items-center gap-3 py-6 md:py-8 px-2 md:px-4 transition-all duration-500 group border-r border-slate-200 dark:border-white/5 last:border-r-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-primary ${isActive
-               ? 'bg-white/60 dark:bg-white/10 backdrop-blur-xl z-10 shadow-inner'
-               : 'bg-transparent opacity-60 hover:opacity-100 hover:bg-slate-50 dark:hover:bg-white/5'
+                  ? 'bg-white/60 dark:bg-white/10 backdrop-blur-xl z-10 shadow-inner'
+                  : 'bg-transparent opacity-60 hover:opacity-100 hover:bg-slate-50 dark:hover:bg-white/5'
                }`}
          >
             <div className={`p-2 md:p-3 rounded-xl md:rounded-2xl transition-all duration-500 ${isActive
-               ? (suite.logo ? 'bg-white dark:bg-white/10 scale-110 shadow-lg shadow-brand-primary/30' : 'bg-brand-primary text-white scale-110 shadow-lg shadow-brand-primary/30')
-               : 'bg-slate-200 dark:bg-white/10 text-slate-500 dark:text-gray-500 group-hover:scale-105'
+                  ? 'bg-brand-primary text-white scale-110 shadow-lg shadow-brand-primary/30'
+                  : 'bg-slate-200 dark:bg-white/10 text-slate-500 dark:text-gray-500 group-hover:scale-105'
                }`}>
-               {suite.logo ? (
-                  <img
-                     src={suite.logo}
-                     alt={`${suite.title} logo`}
-                     className={`w-6 h-6 md:w-7 md:h-7 object-contain transition-all duration-500 ${isActive ? '' : 'grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100'}`}
-                  />
-               ) : (
-                  <Icon size={20} className="md:w-6 md:h-6" strokeWidth={isActive ? 2.5 : 1.5} aria-hidden="true" />
-               )}
+               <Icon size={20} className="md:w-6 md:h-6" strokeWidth={isActive ? 2.5 : 1.5} aria-hidden="true" />
             </div>
             <div className="text-center hidden sm:block">
                <h3 className={`font-bold text-[10px] lg:text-[12px] tracking-tight transition-colors mb-0.5 truncate max-w-[100px] lg:max-w-[130px] ${isActive ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-gray-600'}`}>
@@ -111,8 +103,8 @@ const Home: React.FC = () => {
    const StrategicPillar: React.FC<{ icon: any, label: string, desc: string, detail: string, delay: number, isActive: boolean }> = ({ icon: Icon, label, desc, detail, delay, isActive }) => (
       <RevealOnScroll animation="animate-fade-in-up" delay={delay} className="flex-grow">
          <div className={`group relative flex flex-col h-full bg-white dark:bg-brand-surface/20 border rounded-2xl overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-sm dark:shadow-none transform-gpu ${isActive
-            ? 'border-brand-primary dark:border-brand-neon -translate-y-3 scale-[1.03] shadow-2xl shadow-brand-primary/15 dark:shadow-brand-neon/10 z-20'
-            : 'border-slate-200 dark:border-white/5 hover:border-brand-primary dark:hover:border-brand-neon/40 hover:-translate-y-1'
+               ? 'border-brand-primary dark:border-brand-neon -translate-y-3 scale-[1.03] shadow-2xl shadow-brand-primary/15 dark:shadow-brand-neon/10 z-20'
+               : 'border-slate-200 dark:border-white/5 hover:border-brand-primary dark:hover:border-brand-neon/40 hover:-translate-y-1'
             }`}>
             <div className={`absolute inset-0 bg-gradient-to-b from-brand-primary/5 dark:from-brand-neon/10 to-transparent transition-opacity duration-1000 ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} aria-hidden="true"></div>
 

@@ -9,6 +9,7 @@ import {
 import SpotlightCard from '../components/SpotlightCard';
 import RevealOnScroll from '../components/RevealOnScroll';
 import { useTheme } from '../context/ThemeContext';
+import Captcha from '../components/Captcha';
 
 const Contact: React.FC = () => {
   const { theme } = useTheme();
@@ -33,6 +34,11 @@ const Contact: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Captcha State
+  const [captchaCode, setCaptchaCode] = useState('');
+  const [userCaptchaInput, setUserCaptchaInput] = useState('');
+  const [captchaError, setCaptchaError] = useState(false);
 
   const interestOptions = [
     { label: "Artwork Today (Artwork & Labeling)", icon: Shield },
@@ -151,6 +157,15 @@ const Contact: React.FC = () => {
       return;
     }
 
+    // Captcha Validation
+    if (userCaptchaInput.toUpperCase() !== captchaCode.toUpperCase()) {
+      setCaptchaError(true);
+      setError("Security verification failed. Please check the code.");
+      return;
+    } else {
+      setCaptchaError(false);
+    }
+
     if (!isWorkEmail(formData.email)) {
       setError("Please use your company email address. We prioritize enterprise inquiries.");
       return;
@@ -159,45 +174,39 @@ const Contact: React.FC = () => {
     setIsSubmitting(true);
     setError(null);
 
-    setTimeout(() => {
-      const subject = `Discovery Protocol: ${formData.interest} - ${formData.firstName} ${formData.lastName}`;
+    try {
+      const response = await fetch('http://localhost:5000/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-      const body = `
-        MEGAM LIVE // ARCHITECTURAL DISCOVERY BRIEF
-        ==================================================
-        TIMESTAMP: ${new Date().toLocaleString()}
-        SECURITY STATUS: ENCRYPTED // END-TO-END
-        ==================================================
-        
-        [1.0] PARTICIPANT PROFILE
-        --------------------------------------------------
-        NAME: ${formData.firstName.toUpperCase()} ${formData.lastName.toUpperCase()}
-        ORGANIZATION SIZE: ${formData.companySize}
-        PRIMARY REGION: ${formData.region}
-        RETURN CHANNEL: ${formData.email}
-        
-        [2.0] ENGAGEMENT FOCUS
-        --------------------------------------------------
-        TARGET SYSTEM: ${formData.interest}
-        
-        [3.0] OPERATIONAL CONTEXT & REQUIREMENTS
-        --------------------------------------------------
-        ${formData.message}
-        
-        ==================================================
-        [4.0] END OF BRIEF // DATA SEALED
-        ==================================================
-        INITIALIZING ARCHITECT REVIEW SEQUENCE
-        --------------------------------------------------
-              `.trim();
+      const result = await response.json();
 
-      const mailtoUrl = `mailto:letsdoit@megam.live?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailtoUrl;
-
+      if (result.success) {
+        setIsSuccess(true);
+        setFormData(prev => ({
+          ...prev,
+          firstName: '',
+          lastName: '',
+          email: '',
+          companySize: '',
+          region: '',
+          message: '',
+          fax_number: ''
+        }));
+        setUserCaptchaInput(''); // Reset captcha input on success
+        setTimeout(() => setIsSuccess(false), 5000);
+      } else {
+        throw new Error(result.message || 'Failed to send message');
+      }
+    } catch (err: any) {
+      setError(err.message || "An error occurred. Please try again later.");
+    } finally {
       setIsSubmitting(false);
-      setIsSuccess(true);
-      setTimeout(() => setIsSuccess(false), 5000);
-    }, 800);
+    }
   };
 
   return (
@@ -475,6 +484,29 @@ const Contact: React.FC = () => {
                       <span className={`text-[10px] font-mono uppercase tracking-[0.2em] font-bold ${formData.message.length < 10 ? 'text-slate-400' : 'text-brand-success'}`}>
                         Protocol Buffer: {formData.message.length}/250
                       </span>
+                    </div>
+                  </div>
+
+                  {/* Captcha Section */}
+                  <div className="space-y-3">
+                    <label htmlFor="captcha" className="text-[10px] font-mono font-bold text-brand-primary dark:text-brand-neon uppercase tracking-[0.25em] flex items-center gap-2">
+                      <Shield size={12} aria-hidden="true" /> Security Verification *
+                    </label>
+                    <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                      <Captcha onCodeChange={setCaptchaCode} />
+                      <input
+                        required
+                        type="text"
+                        id="captcha"
+                        name="captcha"
+                        value={userCaptchaInput}
+                        onChange={(e) => {
+                          setUserCaptchaInput(e.target.value);
+                          if (captchaError) setCaptchaError(false);
+                        }}
+                        placeholder="Enter code"
+                        className={`w-full sm:w-40 bg-white dark:bg-black/60 border rounded-xl p-4 text-base text-slate-900 dark:text-white outline-none transition-all text-center uppercase tracking-widest font-mono ${captchaError ? 'border-red-400 focus:border-red-400' : 'border-slate-200 dark:border-white/10 focus:border-brand-primary dark:focus:border-brand-neon'}`}
+                      />
                     </div>
                   </div>
 

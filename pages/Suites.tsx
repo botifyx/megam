@@ -281,19 +281,9 @@ const Suites: React.FC = () => {
                       }`}
                   >
                     <div className="flex items-center gap-5">
-                      <div className={`p-5 rounded-[1.5rem] transition-all duration-500 shrink-0 ${isActive
-                        ? (suite.logo ? 'bg-white dark:bg-white/10 shadow-lg shadow-brand-primary/20' : 'bg-brand-primary text-white shadow-lg shadow-brand-primary/20')
-                        : 'bg-slate-100 dark:bg-white/5 text-slate-400 group-hover:bg-brand-primary/5'
+                      <div className={`p-5 rounded-[1.5rem] transition-all duration-500 shrink-0 ${isActive ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/20' : 'bg-slate-100 dark:bg-white/5 text-slate-400 group-hover:bg-brand-primary/5'
                         }`}>
-                        {suite.logo ? (
-                          <img
-                            src={suite.logo}
-                            alt={`${suite.title} logo`}
-                            className={`w-7 h-7 object-contain transition-all duration-500 ${isActive ? '' : 'grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100'}`}
-                          />
-                        ) : (
-                          <Icon size={24} aria-hidden="true" />
-                        )}
+                        <Icon size={24} aria-hidden="true" />
                       </div>
                       <div className="flex-grow min-w-0">
                         <p className={`text-[9px] font-mono font-bold uppercase tracking-[0.2em] mb-1 ${isActive ? 'text-brand-primary dark:text-brand-neon' : 'text-slate-400'}`}>

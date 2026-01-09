@@ -93,7 +93,6 @@ export const PRODUCT_SUITES: Suite[] = [
       "Single source of truth for artwork data"
     ],
     iconName: "Shield",
-    logo: "/Art.png",
     badges: ["Compliance-Aligned", "M365 Native", "Production-Grade"],
     externalLink: "https://www.artwork.today"
   },
@@ -118,7 +117,6 @@ export const PRODUCT_SUITES: Suite[] = [
       "Fewer fragmented project tracking tools"
     ],
     iconName: "BarChart3",
-    logo: "/Project Tracker.png",
     badges: ["M365 Native", "Copilot-Ready", "Production-Grade"]
   },
   {
@@ -142,7 +140,6 @@ export const PRODUCT_SUITES: Suite[] = [
       "Higher employee adoption and engagement"
     ],
     iconName: "Layout",
-    logo: "/Megam Pulse.png",
     badges: ["M365 Native", "Copilot-Ready"]
   },
   {
@@ -166,7 +163,6 @@ export const PRODUCT_SUITES: Suite[] = [
       "Faster, compliant material creation cycles"
     ],
     iconName: "Layers",
-    logo: "/Material.png",
     badges: ["Compliance-Aligned", "M365 Native", "ERP Integrated", "Production-Grade"]
   },
   {
@@ -191,7 +187,6 @@ export const PRODUCT_SUITES: Suite[] = [
       "Stronger compliance documentation"
     ],
     iconName: "RefreshCw",
-    logo: "/Print.png",
     badges: ["Compliance-Aligned", "M365 Native", "ERP Integrated", "Production-Grade"]
   }
 ];
