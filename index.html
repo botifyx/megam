@@ -1,29 +1,33 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Megam Live | AI-Native Microsoft 365 Workflow Automation</title>
-    <meta name="description" content="Megam Live engineers high-touch Microsoft 365 solutions and artwork approval workflows for regulated industries. Expert SAP integration and M365 governance." />
-    <meta name="keywords" content="Microsoft 365 workflow automation, artwork approval workflows, SAP integration automation, AI project management, M365 governance" />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://megam.live/" />
-    <meta property="og:title" content="Megam Live | AI-Native Microsoft 365 Operations" />
-    <meta property="og:description" content="Engineering precision M365 solutions for regulated industries. SAP sync, artwork labeling, and enterprise automation." />
-    <meta property="og:image" content="https://megam.live/og-image.png" />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://megam.live/" />
-    <meta property="twitter:title" content="Megam Live | AI-Native Microsoft 365 Operations" />
-    <meta property="twitter:description" content="Engineering precision M365 solutions for regulated industries. SAP sync, artwork labeling, and enterprise automation." />
-    <meta property="twitter:image" content="https://megam.live/og-image.png" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Megam Live | AI-Native Microsoft 365 Workflow Automation</title>
+  <meta name="description"
+    content="Megam Live engineers high-touch Microsoft 365 solutions and artwork approval workflows for regulated industries. Expert SAP integration and M365 governance." />
+  <meta name="keywords"
+    content="Microsoft 365 workflow automation, artwork approval workflows, SAP integration automation, AI project management, M365 governance" />
 
-    <!-- Structured Data: Organization -->
-    <script type="application/ld+json">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://megam.live/" />
+  <meta property="og:title" content="Megam Live | AI-Native Microsoft 365 Operations" />
+  <meta property="og:description"
+    content="Engineering precision M365 solutions for regulated industries. SAP sync, artwork labeling, and enterprise automation." />
+  <meta property="og:image" content="https://megam.live/og-image.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://megam.live/" />
+  <meta property="twitter:title" content="Megam Live | AI-Native Microsoft 365 Operations" />
+  <meta property="twitter:description"
+    content="Engineering precision M365 solutions for regulated industries. SAP sync, artwork labeling, and enterprise automation." />
+  <meta property="twitter:image" content="https://megam.live/og-image.png" />
+
+  <!-- Structured Data: Organization -->
+  <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Organization",
@@ -39,205 +43,239 @@
           "availableLanguage": "en"
         },
         "sameAs": [
-          "https://www.linkedin.com/company/megam-live"
+          "https://www.linkedin.com/company/megamlive"
         ]
       }
     </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              brand: {
-                dark: '#020617', 
-                surface: '#0B1121', 
-                primary: '#3b82f6', 
-                secondary: '#6366f1', 
-                accent: '#06b6d4', 
-                success: '#10b981', 
-                neon: '#00f0ff', 
-              }
-            },
-            fontFamily: {
-              sans: ['Inter', 'system-ui', 'sans-serif'],
-              mono: ['JetBrains Mono', 'monospace'],
-            },
-            backgroundImage: {
-              'cyber-grid': "radial-gradient(circle, rgba(59,130,246,0.1) 1px, transparent 1px)",
-            },
-            animation: {
-              'spin-slow': 'spin 15s linear infinite',
-              'spin-reverse-slow': 'spinReverse 20s linear infinite',
-              'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
-              'tech-scan': 'techScan 4s linear infinite',
-              'float': 'float 6s ease-in-out infinite',
-              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-              'circuit-dash': 'circuitDash 3s linear infinite',
-              'glitch': 'glitch 2s infinite',
-              'matrix-rain': 'matrixRain 20s linear infinite',
-              'blur-in': 'blurIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards',
-              'slide-in-left': 'slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards',
-              'tech-reveal': 'techReveal 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
-              'tech-slide-up': 'techSlideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
-              'tech-glitch': 'techGlitch 8s infinite',
-              'shimmer': 'shimmer 2s linear infinite',
-              'scan-line': 'scanLine 2s linear infinite',
-              'grid-move': 'gridMove 20s linear infinite',
-              'neural-pulse': 'neuralPulse 4s ease-in-out infinite',
-              'thinking-flicker': 'thinkingFlicker 2s ease-in-out infinite',
-              'wipe-in-right': 'wipeInRight 1s cubic-bezier(0.22, 1, 0.36, 1) forwards',
-              'hero-text-focus': 'heroTextFocus 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-              'hero-sub-stagger': 'heroSubStagger 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-              'tracking-in-expand': 'trackingInExpand 1.2s cubic-bezier(0.215, 0.610, 0.355, 1.000) both',
-              'cinematic-reveal': 'cinematicReveal 1.5s cubic-bezier(0.19, 1, 0.22, 1) both',
-              'hero-title-reveal': 'heroTitleReveal 1.4s cubic-bezier(0.19, 1, 0.22, 1) both',
-            },
-            keyframes: {
-              spinReverse: {
-                '0%': { transform: 'rotate(360deg)' },
-                '100%': { transform: 'rotate(0deg)' },
-              },
-              pulseGlow: {
-                '0%, 100%': { opacity: 0.6, filter: 'brightness(1)' },
-                '50%': { opacity: 1, filter: 'brightness(1.5)' },
-              },
-              techScan: {
-                '0%': { transform: 'translateY(-100%)', opacity: 0 },
-                '10%': { opacity: 1 },
-                '90%': { opacity: 1 },
-                '100%': { transform: 'translateY(100vh)', opacity: 0 },
-              },
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-20px)' },
-              },
-              fadeInUp: {
-                '0%': { opacity: 0, transform: 'translateY(20px)' },
-                '100%': { opacity: 1, transform: 'translateY(0)' },
-              },
-              circuitDash: {
-                '0%': { strokeDashoffset: '1000' },
-                '100%': { strokeDashoffset: '0' },
-              },
-              glitch: {
-                '0%': { transform: 'translate(0)' },
-                '20%': { transform: 'translate(-2px, 2px)' },
-                '40%': { transform: 'translate(-2px, -2px)' },
-                '60%': { transform: 'translate(2px, 2px)' },
-                '80%': { transform: 'translate(2px, -2px)' },
-                '100%': { transform: 'translate(0)' },
-              },
-              matrixRain: {
-                '0%': { backgroundPosition: '0% 0%' },
-                '100%': { backgroundPosition: '0% 100%' },
-              },
-              blurIn: {
-                '0%': { opacity: 0, filter: 'blur(10px)', transform: 'translateY(20px) scale(0.95)' },
-                '100%': { opacity: 1, filter: 'blur(0)', transform: 'translateY(0) scale(1)' },
-              },
-              slideInLeft: {
-                '0%': { opacity: 0, transform: 'translateX(-30px)' },
-                '100%': { opacity: 1, transform: 'translateX(0)' },
-              },
-              techReveal: {
-                '0%': { opacity: 0, filter: 'blur(15px)', transform: 'scale(1.1)', letterSpacing: '0.2em' },
-                '100%': { opacity: 1, filter: 'blur(0)', transform: 'scale(1)', letterSpacing: 'normal' },
-              },
-              techSlideUp: {
-                '0%': { opacity: 0, transform: 'translateY(30px)', filter: 'blur(8px)' },
-                '100%': { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' },
-              },
-              techGlitch: {
-                '0%, 96%': { transform: 'translate(0)', opacity: '1', textShadow: 'none' },
-                '96.5%': { transform: 'translate(-2px, 2px) skew(2deg)', opacity: '0.9', textShadow: '2px 0 #3b82f6, -2px 0 #00f0ff' },
-                '97%': { transform: 'translate(2px, -2px) skew(-2deg)', opacity: '1', textShadow: '-2px 0 #6366f1, 2px 0 #00f0ff' },
-                '97.5%': { transform: 'translate(0) skew(0)', opacity: '1', textShadow: 'none' },
-                '98%': { transform: 'translate(1px, 0) skew(1deg)', opacity: '0.8', textShadow: '1px 0 #3b82f6' },
-                '100%': { transform: 'translate(0)', opacity: '1', textShadow: 'none' },
-              },
-              shimmer: {
-                '0%': { transform: 'translateX(-150%) skewX(-15deg)' },
-                '50%': { transform: 'translateX(150%) skewX(-15deg)' },
-                '100%': { transform: 'translateX(150%) skewX(-15deg)' },
-              },
-              scanLine: {
-                '0%': { top: '-10%' },
-                '100%': { top: '110%' },
-              },
-              gridMove: {
-                '0%': { backgroundPosition: '0 0' },
-                '100%': { backgroundPosition: '40px 40px' },
-              },
-              neuralPulse: {
-                '0%, 100%': { opacity: 0.1, transform: 'scale(1)' },
-                '50%': { opacity: 0.4, transform: 'scale(1.2)' },
-              },
-              thinkingFlicker: {
-                '0%, 100%': { opacity: 0.3 },
-                '30%': { opacity: 0.8 },
-                '35%': { opacity: 0.4 },
-                '40%': { opacity: 0.9 },
-                '80%': { opacity: 0.5 },
-              },
-              wipeInRight: {
-                '0%': { clipPath: 'inset(0 100% 0 0)', opacity: 0, filter: 'contrast(1.5)' },
-                '100%': { clipPath: 'inset(0 0 0 0)', opacity: 1, filter: 'contrast(1)' },
-              },
-              heroTextFocus: {
-                 '0%': { opacity: 0, filter: 'blur(20px)', transform: 'scale(1.1) translateY(10px)', letterSpacing: '-0.05em' },
-                 '100%': { opacity: 1, filter: 'blur(0)', transform: 'scale(1) translateY(0)', letterSpacing: 'normal' },
-              },
-              heroSubStagger: {
-                 '0%': { opacity: 0, transform: 'translateY(25px)', filter: 'blur(8px)' },
-                 '100%': { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' },
-              },
-              trackingInExpand: {
-                '0%': { letterSpacing: '-0.5em', opacity: 0, filter: 'blur(10px)' },
-                '40%': { opacity: 0.6 },
-                '100%': { opacity: 1, filter: 'blur(0)' }
-              },
-              cinematicReveal: {
-                '0%': { transform: 'translateY(100%)', opacity: 0, filter: 'blur(10px)' },
-                '100%': { transform: 'translateY(0)', opacity: 1, filter: 'blur(0)' }
-              },
-              heroTitleReveal: {
-                '0%': { transform: 'translateY(120%)', letterSpacing: '-0.3em', opacity: 0, filter: 'blur(15px)' },
-                '100%': { transform: 'translateY(0)', letterSpacing: 'normal', opacity: 1, filter: 'blur(0)' }
-              }
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#020617',
+              surface: '#0B1121',
+              primary: '#3b82f6',
+              secondary: '#6366f1',
+              accent: '#06b6d4',
+              success: '#10b981',
+              neon: '#00f0ff',
             }
           },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          backgroundImage: {
+            'cyber-grid': "radial-gradient(circle, rgba(59,130,246,0.1) 1px, transparent 1px)",
+          },
+          animation: {
+            'spin-slow': 'spin 15s linear infinite',
+            'spin-reverse-slow': 'spinReverse 20s linear infinite',
+            'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+            'tech-scan': 'techScan 4s linear infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+            'circuit-dash': 'circuitDash 3s linear infinite',
+            'glitch': 'glitch 2s infinite',
+            'matrix-rain': 'matrixRain 20s linear infinite',
+            'blur-in': 'blurIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+            'slide-in-left': 'slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+            'tech-reveal': 'techReveal 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
+            'tech-slide-up': 'techSlideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
+            'tech-glitch': 'techGlitch 8s infinite',
+            'shimmer': 'shimmer 2s linear infinite',
+            'scan-line': 'scanLine 2s linear infinite',
+            'grid-move': 'gridMove 20s linear infinite',
+            'neural-pulse': 'neuralPulse 4s ease-in-out infinite',
+            'thinking-flicker': 'thinkingFlicker 2s ease-in-out infinite',
+            'wipe-in-right': 'wipeInRight 1s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+            'hero-text-focus': 'heroTextFocus 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'hero-sub-stagger': 'heroSubStagger 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'tracking-in-expand': 'trackingInExpand 1.2s cubic-bezier(0.215, 0.610, 0.355, 1.000) both',
+            'cinematic-reveal': 'cinematicReveal 1.5s cubic-bezier(0.19, 1, 0.22, 1) both',
+            'hero-title-reveal': 'heroTitleReveal 1.4s cubic-bezier(0.19, 1, 0.22, 1) both',
+          },
+          keyframes: {
+            spinReverse: {
+              '0%': { transform: 'rotate(360deg)' },
+              '100%': { transform: 'rotate(0deg)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: 0.6, filter: 'brightness(1)' },
+              '50%': { opacity: 1, filter: 'brightness(1.5)' },
+            },
+            techScan: {
+              '0%': { transform: 'translateY(-100%)', opacity: 0 },
+              '10%': { opacity: 1 },
+              '90%': { opacity: 1 },
+              '100%': { transform: 'translateY(100vh)', opacity: 0 },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
+            },
+            fadeInUp: {
+              '0%': { opacity: 0, transform: 'translateY(20px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' },
+            },
+            circuitDash: {
+              '0%': { strokeDashoffset: '1000' },
+              '100%': { strokeDashoffset: '0' },
+            },
+            glitch: {
+              '0%': { transform: 'translate(0)' },
+              '20%': { transform: 'translate(-2px, 2px)' },
+              '40%': { transform: 'translate(-2px, -2px)' },
+              '60%': { transform: 'translate(2px, 2px)' },
+              '80%': { transform: 'translate(2px, -2px)' },
+              '100%': { transform: 'translate(0)' },
+            },
+            matrixRain: {
+              '0%': { backgroundPosition: '0% 0%' },
+              '100%': { backgroundPosition: '0% 100%' },
+            },
+            blurIn: {
+              '0%': { opacity: 0, filter: 'blur(10px)', transform: 'translateY(20px) scale(0.95)' },
+              '100%': { opacity: 1, filter: 'blur(0)', transform: 'translateY(0) scale(1)' },
+            },
+            slideInLeft: {
+              '0%': { opacity: 0, transform: 'translateX(-30px)' },
+              '100%': { opacity: 1, transform: 'translateX(0)' },
+            },
+            techReveal: {
+              '0%': { opacity: 0, filter: 'blur(15px)', transform: 'scale(1.1)', letterSpacing: '0.2em' },
+              '100%': { opacity: 1, filter: 'blur(0)', transform: 'scale(1)', letterSpacing: 'normal' },
+            },
+            techSlideUp: {
+              '0%': { opacity: 0, transform: 'translateY(30px)', filter: 'blur(8px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' },
+            },
+            techGlitch: {
+              '0%, 96%': { transform: 'translate(0)', opacity: '1', textShadow: 'none' },
+              '96.5%': { transform: 'translate(-2px, 2px) skew(2deg)', opacity: '0.9', textShadow: '2px 0 #3b82f6, -2px 0 #00f0ff' },
+              '97%': { transform: 'translate(2px, -2px) skew(-2deg)', opacity: '1', textShadow: '-2px 0 #6366f1, 2px 0 #00f0ff' },
+              '97.5%': { transform: 'translate(0) skew(0)', opacity: '1', textShadow: 'none' },
+              '98%': { transform: 'translate(1px, 0) skew(1deg)', opacity: '0.8', textShadow: '1px 0 #3b82f6' },
+              '100%': { transform: 'translate(0)', opacity: '1', textShadow: 'none' },
+            },
+            shimmer: {
+              '0%': { transform: 'translateX(-150%) skewX(-15deg)' },
+              '50%': { transform: 'translateX(150%) skewX(-15deg)' },
+              '100%': { transform: 'translateX(150%) skewX(-15deg)' },
+            },
+            scanLine: {
+              '0%': { top: '-10%' },
+              '100%': { top: '110%' },
+            },
+            gridMove: {
+              '0%': { backgroundPosition: '0 0' },
+              '100%': { backgroundPosition: '40px 40px' },
+            },
+            neuralPulse: {
+              '0%, 100%': { opacity: 0.1, transform: 'scale(1)' },
+              '50%': { opacity: 0.4, transform: 'scale(1.2)' },
+            },
+            thinkingFlicker: {
+              '0%, 100%': { opacity: 0.3 },
+              '30%': { opacity: 0.8 },
+              '35%': { opacity: 0.4 },
+              '40%': { opacity: 0.9 },
+              '80%': { opacity: 0.5 },
+            },
+            wipeInRight: {
+              '0%': { clipPath: 'inset(0 100% 0 0)', opacity: 0, filter: 'contrast(1.5)' },
+              '100%': { clipPath: 'inset(0 0 0 0)', opacity: 1, filter: 'contrast(1)' },
+            },
+            heroTextFocus: {
+              '0%': { opacity: 0, filter: 'blur(20px)', transform: 'scale(1.1) translateY(10px)', letterSpacing: '-0.05em' },
+              '100%': { opacity: 1, filter: 'blur(0)', transform: 'scale(1) translateY(0)', letterSpacing: 'normal' },
+            },
+            heroSubStagger: {
+              '0%': { opacity: 0, transform: 'translateY(25px)', filter: 'blur(8px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' },
+            },
+            trackingInExpand: {
+              '0%': { letterSpacing: '-0.5em', opacity: 0, filter: 'blur(10px)' },
+              '40%': { opacity: 0.6 },
+              '100%': { opacity: 1, filter: 'blur(0)' }
+            },
+            cinematicReveal: {
+              '0%': { transform: 'translateY(100%)', opacity: 0, filter: 'blur(10px)' },
+              '100%': { transform: 'translateY(0)', opacity: 1, filter: 'blur(0)' }
+            },
+            heroTitleReveal: {
+              '0%': { transform: 'translateY(120%)', letterSpacing: '-0.3em', opacity: 0, filter: 'blur(15px)' },
+              '100%': { transform: 'translateY(0)', letterSpacing: 'normal', opacity: 1, filter: 'blur(0)' }
+            }
+          }
         },
-      }
-    </script>
-    <style>
-      body {
-        background-color: #F8FAFC;
-        color: #0f172a;
-        font-family: 'Inter', sans-serif;
-        overflow-x: hidden;
-        transition: background-color 0.5s ease, color 0.5s ease;
-      }
-      .dark body {
-        background-color: #020617;
-        color: #f8fafc;
-      }
-      ::-webkit-scrollbar { width: 6px; }
-      ::-webkit-scrollbar-track { background: transparent; }
-      .dark ::-webkit-scrollbar-track { background: #020617; }
-      ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-      .dark ::-webkit-scrollbar-thumb { background: #1e293b; }
-      ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
-      .perspective-1000 { perspective: 1000px; }
-      .rotate-x-12 { transform: rotateX(12deg); }
-      .hologram-text { text-shadow: 0 0 10px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.3); }
-      .text-mask { overflow: hidden; display: block; }
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+      },
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F8FAFC;
+      color: #0f172a;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+
+    .dark body {
+      background-color: #020617;
+      color: #f8fafc;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .dark ::-webkit-scrollbar-track {
+      background: #020617;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3b82f6;
+    }
+
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+
+    .rotate-x-12 {
+      transform: rotateX(12deg);
+    }
+
+    .hologram-text {
+      text-shadow: 0 0 10px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.3);
+    }
+
+    .text-mask {
+      overflow: hidden;
+      display: block;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <script type="importmap">
 {
   "imports": {
@@ -251,8 +289,10 @@
 }
 </script>
 </head>
-  <body>
-    <div id="root"></div>
+
+<body>
+  <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>

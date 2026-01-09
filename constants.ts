@@ -298,5 +298,5 @@ export const CONTACT_INFO = {
   phone: "+1 646.634.1052",
   email: "letsdoit@megam.live",
   website: "www.megam.live",
-  location: "New York, USA"
+  location: "101 Eisenhower Parkway, Suite 300, Roseland, NJ 07068"
 };

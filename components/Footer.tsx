@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
               </a>
               <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-gray-500 cursor-default group/info">
                 <MapPin size={14} className="text-brand-primary" />
-                <span className="font-mono tracking-tight">New York, USA</span>
+                <span className="font-mono tracking-tight">101 Eisenhower Parkway, Suite 300, Roseland, NJ 07068</span>
               </div>
             </div>
           </div>
@@ -124,7 +124,7 @@ const Footer: React.FC = () => {
             <h3 className="text-[10px] font-mono font-bold text-slate-900 dark:text-white tracking-[0.4em] uppercase mb-6">Connect</h3>
             <div className="flex space-x-4 mb-8">
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/company/megamlive"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-500 dark:text-gray-400 hover:text-brand-primary hover:bg-brand-primary/10 transition-all group"
