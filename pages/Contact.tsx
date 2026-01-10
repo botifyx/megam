@@ -175,7 +175,8 @@ const Contact: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:5000/api/send-email', {
+      const apiUrl = ((import.meta as any).env.VITE_API_URL || 'https://backend-send-email-seven.vercel.app') + '/api/send-email';
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
