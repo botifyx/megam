@@ -304,7 +304,7 @@ const Suites: React.FC = () => {
           <main className="lg:col-span-8 h-full">
             <RevealOnScroll animation="animate-blur-in" delay={0.4} className="h-full">
               <SpotlightCard
-                className="h-full bg-white dark:bg-brand-surface/60 border-slate-200 dark:border-white/10 p-8 md:p-14 lg:p-20 shadow-2xl dark:shadow-none backdrop-blur-3xl flex flex-col overflow-hidden"
+                className="base-overflow-visible h-full bg-white dark:bg-brand-surface/60 border-slate-200 dark:border-white/10 p-8 md:p-14 lg:p-20 shadow-2xl dark:shadow-none backdrop-blur-3xl flex flex-col"
                 spotlightColor={theme === 'dark' ? 'rgba(0, 240, 255, 0.08)' : 'rgba(59, 130, 246, 0.05)'}
                 enableTilt={true}
               >

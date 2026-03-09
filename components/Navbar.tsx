@@ -53,6 +53,16 @@ const Navbar: React.FC = () => {
     { name: 'Contact', path: '/contact' },
   ];
 
+  const handleLinkClick = (path: string) => {
+    if (location.pathname === path) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+    setIsOpen(false);
+  };
+
   return (
     <>
       {/* Skip to Content Link */}
@@ -93,6 +103,7 @@ const Navbar: React.FC = () => {
                     <li key={link.name}>
                       <Link
                         to={link.path}
+                        onClick={() => handleLinkClick(link.path)}
                         aria-current={isActive ? 'page' : undefined}
                         className={`relative px-4 py-2 text-[11px] font-bold transition-all duration-300 group rounded overflow-hidden font-mono uppercase tracking-widest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary flex items-center h-10 ${isActive
                           ? 'text-brand-primary dark:text-brand-neon'
@@ -151,7 +162,7 @@ const Navbar: React.FC = () => {
               <li key={link.name}>
                 <Link
                   to={link.path}
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => handleLinkClick(link.path)}
                   className={`block px-4 py-3 rounded text-sm font-mono uppercase tracking-widest transition-all ${location.pathname === link.path
                     ? 'text-brand-primary dark:text-brand-neon bg-brand-primary/5 dark:bg-brand-primary/10'
                     : 'text-slate-500 dark:text-gray-400 hover:text-brand-primary dark:hover:text-brand-neon'

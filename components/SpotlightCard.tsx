@@ -9,9 +9,9 @@ interface SpotlightCardProps {
   enableTilt?: boolean;
 }
 
-const SpotlightCard: React.FC<SpotlightCardProps> = ({ 
-  children, 
-  className = "", 
+const SpotlightCard: React.FC<SpotlightCardProps> = ({
+  children,
+  className = "",
   spotlightColor,
   enableTilt = false
 }) => {
@@ -22,8 +22,8 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
   const [transformStyle, setTransformStyle] = useState("perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
 
   // Default spotlight colors based on theme if not provided
-  const defaultSpotlight = theme === 'dark' 
-    ? "rgba(0, 240, 255, 0.15)" 
+  const defaultSpotlight = theme === 'dark'
+    ? "rgba(0, 240, 255, 0.15)"
     : "rgba(59, 130, 246, 0.1)";
 
   const effectiveSpotlightColor = spotlightColor || defaultSpotlight;
@@ -33,11 +33,11 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
     const rect = divRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     setPosition({ x, y });
 
-    const xRatio = (x / rect.width - 0.5) * 2; 
-    const yRatio = (y / rect.height - 0.5) * 2; 
+    const xRatio = (x / rect.width - 0.5) * 2;
+    const yRatio = (y / rect.height - 0.5) * 2;
 
     divRef.current.style.setProperty('--mouse-x', xRatio.toString());
     divRef.current.style.setProperty('--mouse-y', yRatio.toString());
@@ -45,9 +45,9 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
     divRef.current.style.setProperty('--spotlight-y', `${y}px`);
 
     if (enableTilt) {
-        const rotateX = yRatio * -3; 
-        const rotateY = xRatio * 3;
-        setTransformStyle(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`);
+      const rotateX = yRatio * -3;
+      const rotateY = xRatio * 3;
+      setTransformStyle(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`);
     }
   };
 
@@ -55,18 +55,18 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
   const handleMouseLeave = () => {
     setOpacity(0);
     if (enableTilt) {
-        setTransformStyle("perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
+      setTransformStyle("perspective(2000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
     }
   };
 
   const isHovering = opacity > 0;
   const dynamicStyle: React.CSSProperties = {
-      transform: enableTilt ? transformStyle : undefined,
-      transition: enableTilt && isHovering 
-        ? 'transform 0.1s ease-out' 
-        : 'all 0.5s ease-out',
-      // @ts-ignore
-      '--spotlight-color': effectiveSpotlightColor,
+    transform: enableTilt ? transformStyle : undefined,
+    transition: enableTilt && isHovering
+      ? 'transform 0.1s ease-out'
+      : 'all 0.5s ease-out',
+    // @ts-ignore
+    '--spotlight-color': effectiveSpotlightColor,
   };
 
   return (
@@ -76,45 +76,48 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={dynamicStyle}
-      className={`relative overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-brand-surface/50 backdrop-blur-sm group shadow-sm dark:shadow-none transition-colors duration-500 ${className}`}
+      className={`relative rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-brand-surface/50 backdrop-blur-sm group shadow-sm dark:shadow-none transition-colors duration-500 ${className}`}
     >
-      {/* 1. Dynamic Spotlight Gradient */}
-      <div
-        className="pointer-events-none absolute -inset-px transition-opacity duration-300 z-0"
-        style={{
-          opacity,
-          background: `radial-gradient(600px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%), var(--spotlight-color), transparent 40%)`,
-        }}
-      />
-      
-      {/* 2. Border Glow Reveal */}
-      <div 
-        className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{
-            background: `radial-gradient(800px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%), ${theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(59,130,246,0.04)'}, transparent 40%)`
-        }}
-      ></div>
+      {/* Container for effects that MUST be clipped */}
+      <div className="absolute inset-0 overflow-hidden rounded-[inherit] pointer-events-none z-0">
+        {/* 1. Dynamic Spotlight Gradient */}
+        <div
+          className="absolute -inset-px transition-opacity duration-300 z-0"
+          style={{
+            opacity,
+            background: `radial-gradient(600px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%), var(--spotlight-color), transparent 40%)`,
+          }}
+        />
 
-      {/* 3. Glossy Reflection (Microsoft Material Effect) */}
-      <div 
-         className="absolute inset-0 opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity duration-500 pointer-events-none z-10 mix-blend-overlay"
-         style={{
+        {/* 2. Border Glow Reveal */}
+        <div
+          className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{
+            background: `radial-gradient(800px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%), ${theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(59,130,246,0.04)'}, transparent 40%)`
+          }}
+        ></div>
+
+        {/* 3. Glossy Reflection (Microsoft Material Effect) */}
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity duration-500 pointer-events-none z-10 mix-blend-overlay"
+          style={{
             background: `linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.8) 45%, rgba(255,255,255,0.0) 50%, transparent 100%)`,
             transform: 'translateX(calc(var(--mouse-x, 0) * -15%)) translateY(calc(var(--mouse-y, 0) * -15%))',
             filter: 'blur(5px)'
-         }}
-      />
+          }}
+        />
 
-      {/* 4. Parallax Grid Pattern */}
-      <div 
-        className="absolute inset-0 opacity-0 group-hover:opacity-10 pointer-events-none transition duration-700 z-0"
-        style={{
-             backgroundImage: `linear-gradient(${theme === 'dark' ? 'rgba(59, 130, 246, 0.3)' : 'rgba(59, 130, 246, 0.2)'} 1px, transparent 1px), linear-gradient(90deg, ${theme === 'dark' ? 'rgba(59, 130, 246, 0.3)' : 'rgba(59, 130, 246, 0.2)'} 1px, transparent 1px)`,
-             backgroundSize: '40px 40px',
-             transform: 'translateX(calc(var(--mouse-x, 0) * -10px)) translateY(calc(var(--mouse-y, 0) * -10px))'
-        }}
-      />
-      
+        {/* 4. Parallax Grid Pattern */}
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-10 pointer-events-none transition duration-700 z-0"
+          style={{
+            backgroundImage: `linear-gradient(${theme === 'dark' ? 'rgba(59, 130, 246, 0.3)' : 'rgba(59, 130, 246, 0.2)'} 1px, transparent 1px), linear-gradient(90deg, ${theme === 'dark' ? 'rgba(59, 130, 246, 0.3)' : 'rgba(59, 130, 246, 0.2)'} 1px, transparent 1px)`,
+            backgroundSize: '40px 40px',
+            transform: 'translateX(calc(var(--mouse-x, 0) * -10px)) translateY(calc(var(--mouse-y, 0) * -10px))'
+          }}
+        />
+      </div>
+
       <div className="relative z-10 h-full transform-style-3d">
         {children}
       </div>

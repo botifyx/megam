@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { APP_NAME, CONTACT_INFO } from '../constants';
-import { Linkedin, Twitter, Activity, Phone, Mail, MapPin, ExternalLink } from 'lucide-react';
+import { Linkedin, Instagram, Activity, Phone, Mail, MapPin, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
 import { useTheme } from '../context/ThemeContext';
@@ -62,9 +62,9 @@ const Footer: React.FC = () => {
             <ul className="space-y-4">
               {[
                 { name: 'Artwork Today', path: '/suites/artwork-today' },
-                { name: 'Material Master', path: '/suites/material-master' },
                 { name: 'Project Tracker', path: '/suites/project-tracker' },
                 { name: 'Megam Pulse', path: '/suites/megam-pulse' },
+                { name: 'Material Master', path: '/suites/material-master' },
                 { name: 'Print & Order Management', path: '/suites/print-ops' },
               ].map((link) => (
                 <li key={link.path}>
@@ -133,13 +133,13 @@ const Footer: React.FC = () => {
                 <Linkedin size={18} />
               </a>
               <a
-                href="https://twitter.com"
+                href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-500 dark:text-gray-400 hover:text-brand-accent hover:bg-brand-accent/10 transition-all group"
-                aria-label="Twitter / X"
+                aria-label="Instagram"
               >
-                <Twitter size={18} />
+                <Instagram size={18} />
               </a>
             </div>
 

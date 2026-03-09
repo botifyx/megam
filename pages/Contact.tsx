@@ -9,7 +9,6 @@ import {
 import SpotlightCard from '../components/SpotlightCard';
 import RevealOnScroll from '../components/RevealOnScroll';
 import { useTheme } from '../context/ThemeContext';
-import Captcha from '../components/Captcha';
 
 const Contact: React.FC = () => {
   const { theme } = useTheme();
@@ -28,17 +27,26 @@ const Contact: React.FC = () => {
     companySize: '',
     region: '',
     message: '',
-    fax_number: '' // Honeypot field - invisible to humans, seen by bots
+    hp_website: '' // Honeypot field
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Captcha State
-  const [captchaCode, setCaptchaCode] = useState('');
-  const [userCaptchaInput, setUserCaptchaInput] = useState('');
-  const [captchaError, setCaptchaError] = useState(false);
+  const [captchaAnswer, setCaptchaAnswer] = useState('');
+  const [captchaNum1, setCaptchaNum1] = useState(0);
+  const [captchaNum2, setCaptchaNum2] = useState(0);
+
+  const generateCaptcha = () => {
+    setCaptchaNum1(Math.floor(Math.random() * 10) + 1);
+    setCaptchaNum2(Math.floor(Math.random() * 10) + 1);
+    setCaptchaAnswer('');
+  };
+
+  useEffect(() => {
+    generateCaptcha();
+  }, []);
 
   const interestOptions = [
     { label: "Artwork Today (Artwork & Labeling)", icon: Shield },
@@ -124,13 +132,16 @@ const Contact: React.FC = () => {
     return domain && !forbidden.includes(domain);
   };
 
+  const isCaptchaValid = captchaAnswer.trim() === (captchaNum1 + captchaNum2).toString();
+
   const isFormValid =
     formData.firstName.trim().length > 0 &&
     formData.lastName.trim().length > 0 &&
     isWorkEmail(formData.email) &&
     formData.companySize !== '' &&
     formData.region !== '' &&
-    formData.message.trim().length >= 10;
+    formData.message.trim().length >= 10 &&
+    isCaptchaValid;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -146,25 +157,7 @@ const Contact: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Silent spam protection: if honeypot is filled, simulate success but do nothing
-    if (formData.fax_number) {
-      setIsSubmitting(true);
-      setTimeout(() => {
-        setIsSubmitting(false);
-        setIsSuccess(true);
-        setTimeout(() => setIsSuccess(false), 5000);
-      }, 800);
-      return;
-    }
-
-    // Captcha Validation
-    if (userCaptchaInput.toUpperCase() !== captchaCode.toUpperCase()) {
-      setCaptchaError(true);
-      setError("Security verification failed. Please check the code.");
-      return;
-    } else {
-      setCaptchaError(false);
-    }
+    if (formData.hp_website) return;
 
     if (!isWorkEmail(formData.email)) {
       setError("Please use your company email address. We prioritize enterprise inquiries.");
@@ -174,40 +167,51 @@ const Contact: React.FC = () => {
     setIsSubmitting(true);
     setError(null);
 
-    try {
-      const apiUrl = ((import.meta as any).env.VITE_API_URL || 'https://backend-send-email-seven.vercel.app') + '/api/send-email';
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+    setTimeout(() => {
+      const subject = `Inquiry: ${formData.interest} - ${formData.firstName} ${formData.lastName}`;
 
-      const result = await response.json();
+      const body = `
+Dear Megam Live Team,
 
-      if (result.success) {
-        setIsSuccess(true);
-        setFormData(prev => ({
-          ...prev,
-          firstName: '',
-          lastName: '',
-          email: '',
-          companySize: '',
-          region: '',
-          message: '',
-          fax_number: ''
-        }));
-        setUserCaptchaInput(''); // Reset captcha input on success
-        setTimeout(() => setIsSuccess(false), 5000);
-      } else {
-        throw new Error(result.message || 'Failed to send message');
-      }
-    } catch (err: any) {
-      setError(err.message || "An error occurred. Please try again later.");
-    } finally {
+I would like to request more information regarding your services. Please find my details and inquiry below:
+
+Contact Information
+-------------------
+Name: ${formData.firstName} ${formData.lastName}
+Email: ${formData.email}
+Company Size: ${formData.companySize}
+Region: ${formData.region}
+
+Area of Interest
+----------------
+${formData.interest}
+
+Message
+-------
+${formData.message}
+
+Thank you,
+${formData.firstName} ${formData.lastName}
+`.trim();
+
+      const mailtoUrl = `mailto:letsdoit@megam.live?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailtoUrl;
+
       setIsSubmitting(false);
-    }
+      setIsSuccess(true);
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        interest: 'Artwork Today (Artwork & Labeling)',
+        companySize: '',
+        region: '',
+        message: '',
+        hp_website: ''
+      });
+      setTimeout(() => setIsSuccess(false), 5000);
+      generateCaptcha();
+    }, 800);
   };
 
   return (
@@ -271,18 +275,9 @@ const Contact: React.FC = () => {
                     <p className="text-slate-400 dark:text-gray-500 text-[11px] font-light tracking-[0.1em] uppercase">Fields marked with <span className="text-brand-primary dark:text-brand-neon font-bold">*</span> are mandatory protocols.</p>
                   </div>
 
-                  {/* Honeypot Field - Hidden for users, visible to bots */}
-                  <div className="opacity-0 absolute top-0 left-0 h-0 w-0 z-[-1] pointer-events-none overflow-hidden" aria-hidden="true">
-                    <label htmlFor="fax_number">Fax Number</label>
-                    <input
-                      id="fax_number"
-                      name="fax_number"
-                      type="text"
-                      tabIndex={-1}
-                      autoComplete="off"
-                      value={formData.fax_number}
-                      onChange={handleInputChange}
-                    />
+                  <div className="hidden" aria-hidden="true">
+                    <label htmlFor="hp_website">Your Website</label>
+                    <input id="hp_website" tabIndex={-1} autoComplete="off" name="hp_website" value={formData.hp_website} onChange={handleInputChange} />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -290,11 +285,13 @@ const Contact: React.FC = () => {
                       <label htmlFor="firstName" className="text-[10px] font-mono font-bold text-brand-primary dark:text-brand-neon uppercase tracking-[0.25em] flex items-center gap-2">
                         <User size={12} aria-hidden="true" /> First Name *
                       </label>
-                      <input required id="firstName" name="firstName" value={formData.firstName} onChange={handleInputChange} type="text" placeholder="Jane" className="w-full bg-white dark:bg-black/60 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-base text-slate-900 dark:text-white focus:border-brand-primary dark:focus:border-brand-neon focus:ring-1 focus:ring-brand-primary/20 outline-none transition-all" aria-invalid={false} />
+                      <input required id="firstName" name="firstName" value={formData.firstName} onChange={handleInputChange} type="text" placeholder="First name" className="w-full bg-white dark:bg-black/60 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-base text-slate-900 dark:text-white focus:border-brand-primary dark:focus:border-brand-neon focus:ring-1 focus:ring-brand-primary/20 outline-none transition-all" />
                     </div>
                     <div className="space-y-3">
-                      <label htmlFor="lastName" className="text-[10px] font-mono font-bold text-brand-primary dark:text-brand-neon uppercase tracking-[0.25em]">Last Name *</label>
-                      <input required id="lastName" name="lastName" value={formData.lastName} onChange={handleInputChange} type="text" placeholder="Smith" className="w-full bg-white dark:bg-black/60 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-base text-slate-900 dark:text-white focus:border-brand-primary dark:focus:border-brand-neon focus:ring-1 focus:ring-brand-primary/20 outline-none transition-all" aria-invalid={false} />
+                      <label htmlFor="lastName" className="text-[10px] font-mono font-bold text-brand-primary dark:text-brand-neon uppercase tracking-[0.25em] flex items-center gap-2">
+                        <User size={12} aria-hidden="true" /> Last Name *
+                      </label>
+                      <input required id="lastName" name="lastName" value={formData.lastName} onChange={handleInputChange} type="text" placeholder="Last name" className="w-full bg-white dark:bg-black/60 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-base text-slate-900 dark:text-white focus:border-brand-primary dark:focus:border-brand-neon focus:ring-1 focus:ring-brand-primary/20 outline-none transition-all" />
                     </div>
                   </div>
 
@@ -302,7 +299,7 @@ const Contact: React.FC = () => {
                     <label htmlFor="email" className="text-[10px] font-mono font-bold text-brand-primary dark:text-brand-neon uppercase tracking-[0.25em] flex items-center gap-2">
                       <Mail size={12} aria-hidden="true" /> Work Email *
                     </label>
-                    <input required id="email" name="email" value={formData.email} onChange={handleInputChange} type="email" placeholder="jane.smith@enterprise.com" className={`w-full bg-white dark:bg-black/60 border rounded-xl p-4 text-base text-slate-900 dark:text-white focus:ring-1 focus:ring-brand-primary/20 outline-none transition-all ${formData.email && !isWorkEmail(formData.email) ? 'border-red-400' : 'border-slate-200 dark:border-white/10 focus:border-brand-primary dark:focus:border-brand-neon'}`} aria-invalid={!!(formData.email && !isWorkEmail(formData.email))} aria-describedby={error ? "form-error-message" : undefined} />
+                    <input required id="email" name="email" value={formData.email} onChange={handleInputChange} type="email" placeholder="name@company.com" className={`w-full bg-white dark:bg-black/60 border rounded-xl p-4 text-base text-slate-900 dark:text-white focus:ring-1 focus:ring-brand-primary/20 outline-none transition-all ${formData.email && !isWorkEmail(formData.email) ? 'border-red-400' : 'border-slate-200 dark:border-white/10 focus:border-brand-primary dark:focus:border-brand-neon'}`} />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -488,31 +485,42 @@ const Contact: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Captcha Section */}
                   <div className="space-y-3">
                     <label htmlFor="captcha" className="text-[10px] font-mono font-bold text-brand-primary dark:text-brand-neon uppercase tracking-[0.25em] flex items-center gap-2">
                       <Shield size={12} aria-hidden="true" /> Security Verification *
                     </label>
-                    <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-                      <Captcha onCodeChange={setCaptchaCode} />
-                      <input
-                        required
-                        type="text"
-                        id="captcha"
-                        name="captcha"
-                        value={userCaptchaInput}
-                        onChange={(e) => {
-                          setUserCaptchaInput(e.target.value);
-                          if (captchaError) setCaptchaError(false);
-                        }}
-                        placeholder="Enter code"
-                        className={`w-full sm:w-40 bg-white dark:bg-black/60 border rounded-xl p-4 text-base text-slate-900 dark:text-white outline-none transition-all text-center uppercase tracking-widest font-mono ${captchaError ? 'border-red-400 focus:border-red-400' : 'border-slate-200 dark:border-white/10 focus:border-brand-primary dark:focus:border-brand-neon'}`}
-                      />
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                      <div className="bg-white/80 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-slate-900 dark:text-white font-bold select-none flex items-center justify-center min-w-[140px] shadow-sm">
+                        <span className="text-brand-primary dark:text-brand-neon mr-2">{captchaNum1}</span>
+                        <span className="text-slate-400 dark:text-gray-500">+</span>
+                        <span className="text-brand-primary dark:text-brand-neon mx-2">{captchaNum2}</span>
+                        <span className="text-slate-400 dark:text-gray-500">=</span>
+                        <span className="text-slate-900 dark:text-white ml-2">?</span>
+                      </div>
+                      <div className="flex-grow flex items-center relative">
+                        <input
+                          required
+                          id="captcha"
+                          value={captchaAnswer}
+                          onChange={(e) => setCaptchaAnswer(e.target.value)}
+                          type="text"
+                          placeholder="Enter result..."
+                          className={`w-full bg-white dark:bg-black/60 border rounded-xl p-4 pr-12 text-base text-slate-900 dark:text-white outline-none transition-all shadow-sm ${captchaAnswer && !isCaptchaValid ? 'border-red-400 focus:ring-1 focus:ring-red-400/20' : 'border-slate-200 dark:border-white/10 focus:border-brand-primary dark:focus:border-brand-neon focus:ring-1 focus:ring-brand-primary/20'}`}
+                        />
+                        <button
+                          type="button"
+                          onClick={generateCaptcha}
+                          className="absolute right-4 text-slate-400 hover:text-brand-primary dark:hover:text-brand-neon transition-colors focus:outline-none"
+                          aria-label="Refresh Captcha"
+                        >
+                          <RefreshCw size={16} />
+                        </button>
+                      </div>
                     </div>
                   </div>
 
                   <div aria-live="polite" className="min-h-[20px]">
-                    {error && <div id="form-error-message" className="p-4 bg-red-400/10 border border-red-400/30 rounded-xl flex items-start gap-3 animate-hero-sub-stagger" role="alert"><Info size={16} className="text-red-400 shrink-0 mt-1" aria-hidden="true" /><p className="text-xs text-red-400 font-bold uppercase tracking-tight leading-relaxed">{error}</p></div>}
+                    {error && <div className="p-4 bg-red-400/10 border border-red-400/30 rounded-xl flex items-start gap-3 animate-hero-sub-stagger"><Info size={16} className="text-red-400 shrink-0 mt-1" aria-hidden="true" /><p className="text-xs text-red-400 font-bold uppercase tracking-tight leading-relaxed">{error}</p></div>}
                     {isSuccess && <div className="p-4 bg-brand-success/10 border border-brand-success/30 rounded-xl flex items-start gap-3 animate-hero-sub-stagger"><Check size={16} className="text-brand-success shrink-0 mt-1" aria-hidden="true" /><p className="text-xs text-brand-success font-bold uppercase tracking-tight leading-relaxed">Discovery sequence initialized. Opening local mail agent...</p></div>}
                   </div>
 
