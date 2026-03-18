@@ -34,7 +34,7 @@ const Footer: React.FC = () => {
               />
             </div>
             <p className="text-slate-500 dark:text-gray-400 text-sm leading-relaxed font-light">
-              Engineering enterprise-grade Microsoft 365 solutions, governed workflows, and secure system integrations.
+              Engineering enterprise grade Microsoft 365 solutions, governed workflows, and secure system integrations.
             </p>
 
             <div className="space-y-3">

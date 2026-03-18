@@ -19,7 +19,7 @@ const Services: React.FC = () => {
       <div className="pt-24 pb-20 bg-slate-50 dark:bg-brand-dark min-h-screen relative overflow-hidden transition-colors duration-500">
          <Head
             title="Microsoft 365 Operations & Engineering Services | Megam Live"
-            description="Scale your Microsoft 365 environment with Megam Live's enterprise-grade engineering, governance, and architecture services. Specialized ecosystems for regulated industries."
+            description="Scale your Microsoft 365 environment with Megam Live's enterprise grade engineering, governance, and architecture services. Specialized ecosystems for regulated industries."
             keywords="Microsoft 365, M365 Engineering, Governance, Architecture, SharePoint, Teams, Azure, Power Platform, Regulated Industries"
          />
          <div className="absolute inset-0 z-0 pointer-events-none">
@@ -44,7 +44,7 @@ const Services: React.FC = () => {
                </RevealOnScroll>
                <RevealOnScroll animation="animate-hero-sub-stagger" delay={0.2}>
                   <p className="text-xl text-slate-600 dark:text-gray-400 font-light leading-relaxed transition-colors max-w-3xl mx-auto">
-                     Enterprise-grade Microsoft 365 architecture, governance, and engineering services. We help organizations design, extend, and operate secure, compliant, and scalable M365 environments. Specialized M365 expertise for regulated industries.
+                     Enterprise grade Microsoft 365 architecture, governance, and engineering services. We help organizations design, extend, and operate secure, compliant, and scalable M365 environments. Specialized M365 expertise for regulated industries.
                   </p>
                </RevealOnScroll>
             </header>

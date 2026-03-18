@@ -14,7 +14,7 @@ export const SEO_CONFIG = {
   },
   services: {
     title: "M365 Engineering Services & Governance | Megam Live",
-    description: "Enterprise-grade Microsoft 365 architecture, governance, and engineering. We design secure, compliant, and scalable M365 environments for global firms."
+    description: "Enterprisegrade Microsoft 365 architecture, governance, and engineering. We design secure, compliant, and scalable M365 environments for global firms."
   },
   integrations: {
     title: "SAP Integration Automation | Planetary Sync™ | Megam Live",
@@ -102,9 +102,9 @@ export const PRODUCT_SUITES: Suite[] = [
     productType: "M365 Solution",
     maturity: "Production",
     shortDescription: "Enterprise Project Intelligence for Microsoft 365",
-    fullDescription: "Project Tracker is an enterprise-grade project and portfolio management solution built on Microsoft 365 that goes beyond Planner and task-level tools. It provides a centralized view of projects, timelines, ownership, and execution health across the organization, designed for leadership visibility and operational control.",
+    fullDescription: "Project Tracker is an enterprise grade project and portfolio management solution built on Microsoft 365 that goes beyond Planner and task-level tools. It provides a centralized view of projects, timelines, ownership, and execution health across the organization, designed for leadership visibility and operational control.",
     features: [
-      "Enterprise-wide project and portfolio registry",
+      "Enterprise wide project and portfolio registry",
       "Task management with ownership and dependencies",
       "Timeline, milestone, and risk tracking",
       "Role-based dashboards for PMOs and leadership",
@@ -125,7 +125,7 @@ export const PRODUCT_SUITES: Suite[] = [
     productType: "Digital Workplace Solution",
     maturity: "Early Production",
     shortDescription: "Organization’s Pulse on Knowledge, Communication, and Context",
-    fullDescription: "Megam Pulse is an intelligent digital workplace designed to reflect the real-time pulse of your organization—bringing together communication, knowledge, and context into a unified Microsoft 365 experience. Built as a modern intranet foundation, it enables employees to find information faster and stay aligned with organizational updates.",
+    fullDescription: "Megam Pulse is an intelligent digital workplace designed to reflect the real-time pulse of your organization bringing together communication, knowledge, and context into a unified Microsoft 365 experience. Built as a modern intranet foundation, it enables employees to find information faster and stay aligned with organizational updates.",
     features: [
       "Branded news and communication hubs",
       "Departmental workspaces and knowledge libraries",

@@ -249,7 +249,7 @@ const Suites: React.FC = () => {
         </RevealOnScroll>
         <RevealOnScroll animation="animate-hero-sub-stagger" delay={0.2}>
           <p className="text-xl text-slate-600 dark:text-gray-400 max-w-3xl mx-auto font-light leading-relaxed">
-            Outcome-driven M365 solution patterns for regulated, enterprise-scale operations. Specialist Microsoft 365 workflow automation for global firms.
+            Outcome-driven M365 solution patterns for regulated, enterprise scale operations. Specialist Microsoft 365 workflow automation for global firms.
           </p>
         </RevealOnScroll>
       </div>

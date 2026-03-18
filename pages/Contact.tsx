@@ -164,7 +164,7 @@ const Contact: React.FC = () => {
       return;
     }
 
-    setIsSubmitting(true);
+    w(true);
     setError(null);
 
     setTimeout(() => {
