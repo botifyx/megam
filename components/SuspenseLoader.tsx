@@ -38,7 +38,7 @@ const SuspenseLoader: React.FC = () => {
 
     useEffect(() => {
         // Sequence the animation phases
-        const timer = setTimeout(() => setPhase('unified'), 2500);
+        const timer = setTimeout(() => setPhase('unified'), 4000); // Increased to give time to read "Microsoft 365 Workflow Unification"
         return () => clearTimeout(timer);
     }, []);
 
@@ -152,7 +152,7 @@ const SuspenseLoader: React.FC = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 className="flex flex-col items-center gap-3"
                             >
-                                <div className="text-xl md:text-2xl font-light text-white tracking-wide">
+                                <div className="text-2xl md:text-3xl font-extrabold text-white tracking-tighter">
                                     One Ecosystem. No silos. Full control.
                                 </div>
                             </motion.div>
@@ -166,7 +166,7 @@ const SuspenseLoader: React.FC = () => {
                         className="h-full bg-gradient-to-r from-blue-600 via-purple-500 to-blue-400"
                         initial={{ width: "0%" }}
                         animate={{ width: "100%" }}
-                        transition={{ duration: 3.5, ease: "linear" }}
+                        transition={{ duration: 5.5, ease: "linear" }}
                     />
                 </div>
 

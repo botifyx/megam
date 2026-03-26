@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-    Bot, 
-    Mail, 
-    Cloud, 
-    FileText, 
-    Table, 
-    Presentation, 
-    Share2, 
-    Users, 
+import {
+    Bot,
+    Mail,
+    Cloud,
+    FileText,
+    Table,
+    Presentation,
+    Share2,
+    Users,
     Workflow,
-    ListTodo, 
-    CalendarDays, 
-    ClipboardList, 
+    ListTodo,
+    CalendarDays,
+    ClipboardList,
     BarChart3,
     Network
 } from 'lucide-react';
 
 interface PageLoaderProps {
-  onComplete: () => void;
+    onComplete: () => void;
 }
 
 const m365Apps = [
@@ -46,13 +46,13 @@ const PageLoader: React.FC<PageLoaderProps> = ({ onComplete }) => {
         // Progress simulation
         const timer = setInterval(() => {
             setProgress((prev) => {
-                const next = prev + Math.random() * 4; // Random increment
+                const next = prev + Math.random() * 1.5; // Slower increment to make 'Microsoft 365 Workflow Unification' readable
                 if (next > 100) return 100;
                 
                 if (next > 70 && phase === 'unifying') {
                     setPhase('unified');
                 }
-                
+
                 return next;
             });
         }, 40); // Fast updates
@@ -68,7 +68,7 @@ const PageLoader: React.FC<PageLoaderProps> = ({ onComplete }) => {
                 setIsExiting(true);
                 // Wait for CSS fade out before unmounting
                 setTimeout(onComplete, 800); 
-            }, 600); // Slight pause
+            }, 3000); // 3-second pause to read 'One Ecosystem. No silos. Full control.'
             return () => clearTimeout(exitTimer);
         }
     }, [progress, onComplete]);
@@ -160,7 +160,7 @@ const PageLoader: React.FC<PageLoaderProps> = ({ onComplete }) => {
 
                 {/* Progress Bar Container */}
                 <div className="w-64 md:w-96 h-1 bg-gray-800 rounded-full overflow-hidden relative mb-6 border border-white/5">
-                    <div 
+                    <div
                         className="h-full bg-gradient-to-r from-blue-600 via-purple-500 to-blue-400 transition-all duration-100 ease-out relative"
                         style={{ width: `${progress}%` }}
                     >
@@ -178,7 +178,7 @@ const PageLoader: React.FC<PageLoaderProps> = ({ onComplete }) => {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.3 }}
+                                transition={{ duration: 0.9 }}
                                 className="font-mono text-xs md:text-sm tracking-widest text-blue-400 uppercase flex items-center justify-between w-64 md:w-96"
                             >
                                 <span className="text-left truncate">Microsoft 365 Unification</span>
@@ -191,7 +191,7 @@ const PageLoader: React.FC<PageLoaderProps> = ({ onComplete }) => {
                                 key="unified"
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="text-lg md:text-2xl font-light text-white tracking-wide"
+                                className="text-xl md:text-3xl font-extrabold text-white tracking-tighter"
                             >
                                 One Ecosystem. No silos. Full control.
                             </motion.div>
@@ -204,4 +204,4 @@ const PageLoader: React.FC<PageLoaderProps> = ({ onComplete }) => {
     );
 };
 
-export default PageLoader;
+export default PageLoader;
