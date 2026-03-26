@@ -27,6 +27,8 @@ export default defineConfig(({ mode }) => {
         }
       },
       build: {
+        target: 'esnext',
+        minify: 'esbuild',
         rollupOptions: {
           output: {
             manualChunks: {
@@ -36,6 +38,9 @@ export default defineConfig(({ mode }) => {
             }
           }
         }
+      },
+      esbuild: {
+        drop: mode === 'production' ? ['console', 'debugger'] : [],
       }
     };
 });

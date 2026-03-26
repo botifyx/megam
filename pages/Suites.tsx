@@ -24,7 +24,7 @@ const SuiteDetailRenderer = memo(({ suite, isReady }: { suite: Suite; isReady: b
       <div className="space-y-6">
         <div className="flex items-center gap-3">
           <div className="w-1.5 h-1.5 rounded-full bg-brand-primary animate-pulse" aria-hidden="true"></div>
-          <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-gray-500 uppercase tracking-[0.4em]">Protocol Abstract</span>
+          <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-gray-500 uppercase tracking-[0.4em]">PRODUCT DATA ORCHESTRATION</span>
         </div>
         <p className="text-2xl text-slate-500 dark:text-gray-400 leading-relaxed font-light max-w-3xl">
           {suite.fullDescription}
@@ -35,7 +35,7 @@ const SuiteDetailRenderer = memo(({ suite, isReady }: { suite: Suite; isReady: b
         {/* Section 1: Features (Lazy Mount Animation) */}
         <section className="space-y-8 p-8 rounded-[2rem] bg-slate-50/50 dark:bg-white/5 border border-slate-100 dark:border-white/5 opacity-0 animate-blur-in fill-mode-forwards" style={{ animationDelay: '0.1s' }} aria-labelledby={`features-heading-${suite.id}`}>
           <h3 id={`features-heading-${suite.id}`} className="flex items-center gap-3 text-[10px] font-mono font-bold text-brand-primary uppercase tracking-[0.3em] border-l-2 border-brand-primary pl-4">
-            Functional Core
+            PLATFORM CAPABILITIES
           </h3>
           <ul className="grid grid-cols-1 gap-3" role="list">
             {suite.features.map((f, i) => (
@@ -52,7 +52,7 @@ const SuiteDetailRenderer = memo(({ suite, isReady }: { suite: Suite; isReady: b
         {/* Section 2: Benefits (Lazy Mount Animation) */}
         <section className="space-y-8 p-8 rounded-[2rem] bg-slate-50/50 dark:bg-white/5 border border-slate-100 dark:border-white/5 opacity-0 animate-blur-in fill-mode-forwards" style={{ animationDelay: '0.3s' }} aria-labelledby={`benefits-heading-${suite.id}`}>
           <h3 id={`benefits-heading-${suite.id}`} className="flex items-center gap-3 text-[10px] font-mono font-bold text-brand-secondary uppercase tracking-[0.3em] border-l-2 border-brand-secondary pl-4">
-            Strategic Outcomes
+            BUSINESS IMPACT
           </h3>
           <ul className="grid grid-cols-1 gap-3" role="list">
             {suite.benefits.map((b, i) => (
@@ -104,7 +104,7 @@ const SuiteDetailRenderer = memo(({ suite, isReady }: { suite: Suite; isReady: b
                 <div className="absolute inset-0 bg-gradient-to-r from-brand-primary to-brand-secondary opacity-90 transition-opacity duration-500" aria-hidden="true"></div>
                 <div className="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" aria-hidden="true"></div>
                 <span className="relative z-10 flex items-center gap-4 text-white font-black uppercase tracking-[0.25em] text-[11px] sm:text-[13px] whitespace-nowrap drop-shadow-sm">
-                  Request Solution Blueprint
+                  REQUEST SOLUTION BLUEPRINT
                   <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform duration-300 ease-out" aria-hidden="true" />
                 </span>
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-700 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.4)_0%,transparent_70%)] pointer-events-none" aria-hidden="true"></div>

@@ -10,7 +10,7 @@ export const SEO_CONFIG = {
   },
   suites: {
     title: "Product Suites | Enterprise M365 Solutions | Megam Live",
-    description: "Explore our M365 product suites: Artwork Today, Material Master, and Project Tracker. Regulated artwork and labeling workflows built for the Microsoft ecosystem."
+    description: "Explore our M365 product suites: Artwork Today, Product & Packaging Hub, and PlanWise AI. Regulated artwork and labeling workflows built for the Microsoft ecosystem."
   },
   services: {
     title: "M365 Engineering Services & Governance | Megam Live",
@@ -98,26 +98,29 @@ export const PRODUCT_SUITES: Suite[] = [
   },
   {
     id: "project-tracker",
-    title: "Project Tracker",
+    title: "PlanWise AI",
     productType: "M365 Solution",
     maturity: "Production",
-    shortDescription: "Enterprise Project Intelligence for Microsoft 365",
-    fullDescription: "Project Tracker is an enterprise grade project and portfolio management solution built on Microsoft 365 that goes beyond Planner and task-level tools. It provides a centralized view of projects, timelines, ownership, and execution health across the organization, designed for leadership visibility and operational control.",
+    shortDescription: "AI-powered project planning and execution solution for Microsoft 365",
+    fullDescription: "PlanWise AI is an AI-powered project planning and execution solution built on Microsoft 365 that transforms how teams initiate and manage projects. Simply define a project goal, and PlanWise AI intelligently generates recommended tasks, timelines, and dependencies, accelerating project setup and ensuring structured execution from day one. It provides a centralized, real-time view of projects, ownership, risks, and progress across the organization, with built-in workflows, dashboards, and automation designed for leadership visibility and operational control.",
     features: [
-      "Enterprise wide project and portfolio registry",
-      "Task management with ownership and dependencies",
-      "Timeline, milestone, and risk tracking",
+      "AI-generated project plans from business goals",
+      "Task, dependency, and timeline orchestration",
+      "Built-in risk, issue, and change tracking",
       "Role-based dashboards for PMOs and leadership",
-      "Teams and Outlook-integrated notifications"
+      "Teams and Outlook-integrated notifications",
+      "Workflow-driven execution and approvals"
     ],
     benefits: [
-      "Improved project visibility across the enterprise",
-      "Reduced missed deadlines and execution gaps",
-      "Stronger accountability and ownership",
-      "Fewer fragmented project tracking tools"
+      "Accelerates project setup with AI-driven planning",
+      "Improves execution consistency across teams",
+      "Reduces delays through better dependency management",
+      "Enhances visibility for leadership and PMOs",
+      "Eliminates reliance on fragmented tools like Planner or Smartsheet",
+      "Drives structured, scalable project delivery"
     ],
     iconName: "BarChart3",
-    badges: ["M365 Native", "Copilot-Ready", "Production-Grade"]
+    badges: ["M365 Native", "AI-Powered", "Copilot-Ready", "Production-Grade"]
   },
   {
     id: "megam-pulse",
@@ -144,23 +147,26 @@ export const PRODUCT_SUITES: Suite[] = [
   },
   {
     id: "material-master",
-    title: "Material Master",
-    productType: "Enterprise Workflow Platform",
+    title: "Product & Packaging Hub",
+    productType: "PRODUCT DATA SOLUTION",
     maturity: "Production",
-    shortDescription: "Governed Material & BOM Management for Microsoft 365 with SAP Synchronization",
-    fullDescription: "The Material Master solution is a Microsoft 365–based workflow platform that centralizes and governs the end-to-end Material Master and BOM creation process. It replaces manual spreadsheets with a structured, role-driven system of record. Once validated, approved data is securely synchronized into SAP, maintaining full traceability.",
+    shortDescription: "Governed product and packaging data solution for Microsoft 365 with compliant SAP synchronizationn",
+    fullDescription: "The Product & Packaging Hub is a Microsoft 365–based solution that orchestrates cross-functional product data creation before it reaches SAP. Regulatory, Packaging, Quality, Finance, and Operations contribute to a structured, role-driven workflow that captures all required product and BOM data. Each step is governed by approvals, electronic signatures, and complete audit trails, ensuring compliance and accountability. Once validated and signed off, data is seamlessly synchronized into SAP, establishing a trusted and compliant system of record.",
     features: [
-      "Centralized Material Master and BOM workflows",
-      "Role-based contributions and validations",
-      "Stage-based approvals with alerts",
-      "Full audit trails and approval history",
-      "Secure SAP synchronization with change visibility"
+      "Cross-functional data contribution workflows",
+      "Role-based validations and field-level controls",
+      "Configurable multi-step approvals",
+      "Electronic signatures (21 CFR Part 11 ready)",
+      "End-to-end audit trails and traceability",
+      "Seamless SAP material & BOM synchronization"
     ],
     benefits: [
-      "Improved material data accuracy",
-      "Reduced errors and rework in SAP",
-      "Stronger cross-functional accountability",
-      "Faster, compliant material creation cycles"
+      "Eliminates spreadsheet-driven product setup",
+      "Improves data accuracy before SAP entry",
+      "Ensures compliance with full auditability",
+      "Reduces rework and SAP data corrections",
+      "Drives cross-functional accountability",
+      "Accelerates product launch readiness"
     ],
     iconName: "Layers",
     badges: ["Compliance-Aligned", "M365 Native", "ERP Integrated", "Production-Grade"]

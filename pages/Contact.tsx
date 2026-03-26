@@ -50,8 +50,8 @@ const Contact: React.FC = () => {
 
   const interestOptions = [
     { label: "Artwork Today (Artwork & Labeling)", icon: Shield },
-    { label: "Material Master & SAP Integration", icon: Database },
-    { label: "Project Tracker (Enterprise PMO)", icon: Layers },
+    { label: "Product & Packaging Hub & SAP Integration", icon: Database },
+    { label: "PlanWise AI (Enterprise PMO)", icon: Layers },
     { label: "Megam Pulse (Intelligent Intranet)", icon: Layout },
     { label: "Print & Order Management", icon: RefreshCw },
     { label: "Microsoft 365 Architecture & Governance", icon: Cpu },

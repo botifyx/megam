@@ -124,7 +124,7 @@ const MegChat: React.FC = () => {
     
     KNOWLEDGE BASE:
     - Megam Live specialized in M365 (SharePoint, Teams, Power Platform) for regulated industries.
-    - Core products: Artwork Today (labeling at www.artwork.today), Material Master (SAP Sync), Project Tracker.
+    - Core products: Artwork Today (labeling at www.artwork.today), Product & Packaging Hub (SAP Sync), PlanWise AI.
     - "Planetary Sync" is our proprietary SAP integration fabric.
     
     ESCALATION:

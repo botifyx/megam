@@ -62,9 +62,9 @@ const Footer: React.FC = () => {
             <ul className="space-y-4">
               {[
                 { name: 'Artwork Today', path: '/suites/artwork-today' },
-                { name: 'Project Tracker', path: '/suites/project-tracker' },
+                { name: 'PlanWise AI', path: '/suites/project-tracker' },
                 { name: 'Megam Pulse', path: '/suites/megam-pulse' },
-                { name: 'Material Master', path: '/suites/material-master' },
+                { name: 'Product & Packaging Hub', path: '/suites/material-master' },
                 { name: 'Print & Order Management', path: '/suites/print-ops' },
               ].map((link) => (
                 <li key={link.path}>
