@@ -201,13 +201,13 @@ export const M365_SERVICES: Service[] = [
   {
     id: "sharepoint",
     title: "SharePoint Online Architecture",
-    description: "Designing modern SharePoint architectures for intranets, process automation, document management, and governed collaboration—aligned with enterprise security and compliance standards.",
+    description: "Designing modern SharePoint architectures for intranets, process automation, document management, and governed collaboration aligned with enterprise security and compliance standards.",
     iconName: "AppWindow"
   },
   {
     id: "power-automate",
     title: "Power Automate Workflow Automation",
-    description: "Designing and governing Power Automate workflows to streamline approvals, integrations, and operational processes across Microsoft 365—without compromising control or auditability.",
+    description: "Designing and governing Power Automate workflows to streamline approvals, integrations, and operational processes across Microsoft 365 without compromising control or auditability.",
     iconName: "RefreshCw"
   },
   {
