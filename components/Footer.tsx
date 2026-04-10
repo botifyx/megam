@@ -133,7 +133,7 @@ const Footer: React.FC = () => {
                 <Linkedin size={18} />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/megam_live"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-500 dark:text-gray-400 hover:text-brand-accent hover:bg-brand-accent/10 transition-all group"
